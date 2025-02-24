@@ -1,4 +1,5 @@
 using Eshop.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace Eshop
 {
@@ -8,8 +9,15 @@ namespace Eshop
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+			string connectionString = builder.Configuration.GetConnectionString("MySQL")
+				?? throw new InvalidOperationException("MySQL connection string is not provided");
+
+			builder.Services.AddDbContext<DatabaseContext>(options =>
+				options.UseMySQL(connectionString)
+			);
+
+			// Add services to the container.
+			builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 
@@ -28,10 +36,7 @@ namespace Eshop
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            using DatabaseContext db = new DatabaseContext();
-            bool b = db.Manufacturers.Any();
-			int a = 0;
-			var m =db.Manufacturers.FirstOrDefault();
+       
             
             app.Run();
         }

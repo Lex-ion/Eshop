@@ -1,0 +1,48 @@
+﻿@using Eshop.Entities;
+@model List< Product>;
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="container mt-4">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Sloupec 1</th>
+                <th>Sloupec 2</th>
+                <th>Sloupec 3</th>
+                <th>Sloupec 4</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Řádek 1, Sloupec 1</td>
+                <td>Řádek 1, Sloupec 2</td>
+                <td>Řádek 1, Sloupec 3</td>
+                <td>Řádek 1, Sloupec 4</td>
+            </tr>
+            <tr>
+                <td>Řádek 2, Sloupec 1</td>
+                <td>Řádek 2, Sloupec 2</td>
+                <td>Řádek 2, Sloupec 3</td>
+                <td>Řádek 2, Sloupec 4</td>
+            </tr>
+            <tr>
+                <td>Řádek 3, Sloupec 1</td>
+                <td>Řádek 3, Sloupec 2</td>
+                <td>Řádek 3, Sloupec 3</td>
+                <td>Řádek 3, Sloupec 4</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@foreach(var p in Model){
+    <div>
+        <h1>@p.Name</h1>
+        <h2>@p.Price Kč  Skladem: @p.AvailableCount</h2>
+        <h3>@p.Description?[..30]...</h3>
+    </div>
+}

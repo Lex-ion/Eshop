@@ -17,11 +17,14 @@ namespace Eshop.Database
 		public DbSet<ProductCategory> ProductCategories { get; set; }
 		public DbSet<Review> Reviews { get; set; }
 
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		{
-			optionsBuilder.UseLazyLoadingProxies();
-			optionsBuilder.UseMySQL("server=mysqlstudenti.litv.sssvt.cz;database=4b2_urbantomas_db1;user=urbantomas;password=123456;charset=utf8;");
-		}
+	   public DatabaseContext(DbContextOptions options)
+            : base(options)
+        { }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
 	}
 
 }
