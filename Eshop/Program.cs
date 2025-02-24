@@ -1,3 +1,5 @@
+using Eshop.Database;
+
 namespace Eshop
 {
     public class Program
@@ -26,6 +28,11 @@ namespace Eshop
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            using DatabaseContext db = new DatabaseContext();
+            bool b = db.Manufacturers.Any();
+			int a = 0;
+			var m =db.Manufacturers.FirstOrDefault();
+            
             app.Run();
         }
     }
