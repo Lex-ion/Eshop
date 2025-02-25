@@ -5,44 +5,67 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    
 }
-<div class="container mt-4">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Sloupec 1</th>
-                <th>Sloupec 2</th>
-                <th>Sloupec 3</th>
-                <th>Sloupec 4</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Řádek 1, Sloupec 1</td>
-                <td>Řádek 1, Sloupec 2</td>
-                <td>Řádek 1, Sloupec 3</td>
-                <td>Řádek 1, Sloupec 4</td>
-            </tr>
-            <tr>
-                <td>Řádek 2, Sloupec 1</td>
-                <td>Řádek 2, Sloupec 2</td>
-                <td>Řádek 2, Sloupec 3</td>
-                <td>Řádek 2, Sloupec 4</td>
-            </tr>
-            <tr>
-                <td>Řádek 3, Sloupec 1</td>
-                <td>Řádek 3, Sloupec 2</td>
-                <td>Řádek 3, Sloupec 3</td>
-                <td>Řádek 3, Sloupec 4</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
 
-@foreach(var p in Model){
-    <div>
-        <h1>@p.Name</h1>
-        <h2>@p.Price Kč  Skladem: @p.AvailableCount</h2>
-        <h3>@p.Description?[..30]...</h3>
+<div class="container">
+    @for (int i = 0; i < 4; i++)
+    {
+        
+    <div class="row">
+        @foreach (var p in Model)
+        {
+                <div class="col-md-3 mb-4 d-flex">
+                    <div class="card flex-fill d-flex flex-column">
+                        <img src="Imgs/Products/@p.Id/0.png" class="card-img-top" alt="...">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@p.Name</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">@p.Manufacturer</h6>
+                            <p class="card-text">@p.Description?.Substring(0, 45)...</p>
+
+                            <!-- Zajištění, že tlačítko a cena budou vždy dole -->
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-around mb-3">
+                                    @if (p.AvailableCount is null)
+                                    {
+                                        <a href="#" class="btn btn-primary text-wrap align-content-center disabled">Do košíku</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" class="btn btn-primary text-wrap align-content-center">Do košíku</a>
+                                    }
+
+                                    <div class="align-content-center">
+                                        @if (p.Discount is null)
+                                        {
+                                            <h5 class="card-title">@p.Price Kč</h5>
+                                        }
+                                        else
+                                        {
+                                            decimal newPrice = p.Price - (p.Discount ?? 0);
+                                            <h5 class="card-title text-danger">@newPrice Kč</h5>
+                                            <h6 class="card-subtitle mb-2 text-muted text-decoration-line-through">@p.Price Kč</h6>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    @if (p.AvailableCount is not null)
+                                    {
+                                        <h6 class="card-subtitle mb-2 text-muted">Skladem: @p.AvailableCount ks</h6>
+                                    }
+                                    else
+                                    {
+                                        <h6 class="card-subtitle mb-2 text-muted">Nedostupné</h6>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+        }
     </div>
-}
+    }
+</div>
