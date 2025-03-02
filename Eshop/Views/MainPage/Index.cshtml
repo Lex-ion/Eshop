@@ -1,5 +1,5 @@
-﻿@using Eshop.Entities;
-@model List< Product>;
+﻿@using Eshop.Models;
+@model MainPageModel;
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,6 +13,10 @@
         @TempData["Message"]
     </div>
 }
+<form class="d-flex" asp-action="Search" style="margin:15px;">
+    <input asp-for="SearchString" class="form-control me-2" type="search" placeholder="Hledat..." aria-label="Vyhledávání">
+    <button class="btn btn-outline-success" type="submit">Hledat</button>
+</form>
 
 <div class="container">
 
@@ -20,7 +24,7 @@
     <div class="row">
         @for (int i = 0; i < 10; i++)
         {
-            @foreach (var p in Model)
+            @foreach (var p in Model.Products)
             {
                 <div class="col-md-3 mb-4 d-flex">
                     <div class="card flex-fill d-flex flex-column">
