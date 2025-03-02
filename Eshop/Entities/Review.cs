@@ -17,16 +17,15 @@ namespace Eshop.Entities
 		public short Rating { get; set; }
 
 		[Column("Description")]
-		public string Description { get; set; }
+		public string? Description { get; set; }
 
 		[Column("AccountID")]
-		public int AccountID { get; set; }
-		public virtual Account Account { get; set; }
+		public int? AccountID { get; set; }
+		public virtual Account? Account { get; set; }
 		[Column("Redacted")]
 		public bool IsDeleted { get; set; }
 
-
-		public Review(int id, int productId, Product product, short rating, string description, int accountID, Account account, bool isDeleted)
+		public Review(int id, int productId, Product product, short rating, string? description, int? accountID, Account? account, bool isDeleted)
 		{
 			Id = id;
 			ProductId = productId;

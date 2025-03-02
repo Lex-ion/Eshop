@@ -1,0 +1,113 @@
+﻿@using Eshop.Entities;
+@model Product;
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Obrázky -->
+        <div class="col-md-6 text-center">
+            <img id="mainImage" src="/Imgs/Products/@Model.Id/0.png" class="img-fluid rounded shadow-lg mb-3"
+            alt="@Model.Name" style="max-width: 100%; height: auto;">
+
+            <!-- Miniatury -->
+            @{
+                string path = "/Imgs/Products/" + Model.Id.ToString() + "/";
+                FileInfo[] files = new DirectoryInfo(ViewBag.RootPath + "/Imgs/Products/" + Model.Id.ToString()).GetFiles();
+                if (files.Length > 1)
+                {
+                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                        @for (int i = 0; i < files.Length; i++)
+                        {
+                            string imgPath = path + files[i].Name;
+                            <img src="@imgPath" class="img-thumbnail small-image" alt="Obrázek @i"
+                            style="width: 96px; height: 54px; cursor: pointer; object-fit: cover; transition: transform 0.2s ease;"
+                            onmouseover="this.style.transform='scale(1.1)';"
+                            onmouseout="this.style.transform='scale(1)';"
+                            onclick="changeImage('@imgPath')">
+                        }
+                    </div>
+                }
+            }
+        </div>
+
+        <!-- Informace o produktu -->
+        <div class="col-md-6 d-flex flex-column justify-content-center">
+            <h1 class="mb-3">@Model.Name</h1>
+            <a asp-controller="Manufacturer" asp-action="Index" asp-route-id="@Model.ManufacturerID">
+                <h4 class="card-subtitle mb-2 text-muted">@Model.Manufacturer.Name</h4>
+            </a>
+            <p class="lead">@Model.Description</p>
+
+            <div class="my-4">
+                @if (Model.Discount is null)
+                {
+                    <h2 class="fw-bold">@Model.Price Kč</h2>
+                }
+                else
+                {
+                    decimal newPrice = Model.Price - (Model.Discount ?? 0);
+                    <h2 class="text-danger fw-bold">@newPrice Kč</h2>
+                    <h4 class="text-muted text-decoration-line-through">@Model.Price Kč</h4>
+                }
+            </div>
+
+            @if (Model.AvailableCount is not null)
+            {
+                <p class="text-success fw-bold">Skladem: @Model.AvailableCount ks</p>
+                <a asp-controller="MainPage" asp-action="AddToCart" asp-route-id="@Model.Id"
+                class="btn btn-lg btn-primary w-100">🛒 Přidat do košíku</a>
+            }
+            else
+            {
+                <p class="text-danger fw-bold">Nedostupné</p>
+                <button class="btn btn-lg btn-secondary w-100 disabled">Vyprodáno</button>
+            }
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<!-- Kategorie -->
+<h3>Kategorie produktu:</h3>
+<div class="container">
+    <div class="d-flex flex-wrap gap-3">
+        @foreach (var cat in Model.ProductCategories)
+        {
+            <a href="#" class="badge bg-secondary p-2 fs-5 text-decoration-none">@cat.Category.Name</a>
+        }
+    </div>
+</div>
+
+<hr />
+
+<!-- Recenze -->
+<h3>Recenze produktu:</h3>
+<div class="container">
+    @if (Model.ProductReviews.Any())
+    {
+        @foreach (var rev in Model.ProductReviews)
+        {
+            <div class="card p-3 mb-3 shadow-sm">
+                @if (rev.Account is null)
+                {
+                    <h4>Anonymní zákazník</h4>
+                }else{
+                    <h4>@rev.Account.Name @rev.Account.Lastname</h4>
+                }
+                <h6 class="text-warning">⭐ @rev.Rating/10</h6>
+                <p>@rev.Description</p>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-muted">Tento produkt zatím nemá žádné recenze.</p>
+    }
+</div>
+
+<!-- Skript pro změnu obrázku -->
+<script>
+    function changeImage(newSrc) {
+        document.getElementById('mainImage').src = newSrc;
+    }
+</script>

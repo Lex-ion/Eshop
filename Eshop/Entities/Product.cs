@@ -30,7 +30,9 @@ namespace Eshop.Entities
 
 		public virtual List<ProductCategory> ProductCategories { get; set; }
 
-		public Product(int id, string name, string? description, decimal price, decimal? discount, int? availableCount, int manufacturerID, Manufacturer manufacturer, List<ProductCategory> productCategories)
+		public virtual List<Review> ProductReviews { get; set; }
+
+		public Product(int id, string name, string? description, decimal price, decimal? discount, int? availableCount, int manufacturerID, Manufacturer manufacturer, List<ProductCategory> productCategories, List<Review> productReviews)
 		{
 			Id = id;
 			Name = name;
@@ -41,6 +43,7 @@ namespace Eshop.Entities
 			ManufacturerID = manufacturerID;
 			Manufacturer = manufacturer;
 			ProductCategories = productCategories;
+			ProductReviews = productReviews;
 		}
 
 		public Product()
@@ -54,6 +57,7 @@ namespace Eshop.Entities
 			ManufacturerID = 0;
 			Manufacturer = null!;		
 			ProductCategories = new List<ProductCategory>();
+			ProductReviews = new();
 		}
 	}
 }
