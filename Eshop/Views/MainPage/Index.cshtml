@@ -27,7 +27,9 @@
             @foreach (var p in Model.Products)
             {
                 <div class="col-md-3 mb-4 d-flex">
-                    <div class="card flex-fill d-flex flex-column">
+                    <div class="card flex-fill d-flex flex-column border"
+                         onmouseover="this.classList.add('border-primary');"
+                         onmouseout="this.classList.remove('border-primary');">
                         <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@p.Id" class="text-decoration-none text-dark w-100">
                             <img src="/Imgs/Products/@p.Id/0.png" class="card-img-top" alt="...">
                         </a>
