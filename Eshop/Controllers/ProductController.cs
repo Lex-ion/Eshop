@@ -3,6 +3,7 @@ using Eshop.Models;
 using Eshop.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using Eshop.Helpers;
 
 namespace Eshop.Controllers
 {
@@ -19,6 +20,12 @@ namespace Eshop.Controllers
 
 		public IActionResult ProductDetail(int id)
 		{
+			var cart = CartHelper.GetCart(HttpContext,_context);
+
+			var thisCartItem = cart.SingleOrDefault(ci => ci.ProductId == id);
+
+			ViewBag.InCartCount = thisCartItem?.Count ?? 0;
+
 			ViewBag.RootPath = _environment.WebRootPath;
 			Product prod = _context.Products.Single(p => p.Id == id);
 			OrderItemModel oi = new(prod,1);
@@ -27,21 +34,16 @@ namespace Eshop.Controllers
 
 		public IActionResult AddToCart(OrderItemModel model)
 		{
-			Dictionary<int,int> cart;
-			string? cartJson = HttpContext.Session.GetString("CartJSON");
-			if (cartJson is null)
-				cart = new();
-			else cart = JsonSerializer.Deserialize<Dictionary<int, int>>(cartJson);
-
-			if( !cart.TryAdd(model.ProductId, model.Count))
-			{
-				cart[model.ProductId] += model.Count;
-			}
-
-			HttpContext.Session.SetString("CartJSON", JsonSerializer.Serialize(cart));
+			CartHelper.AddToCart(HttpContext, model);
 
 			int id = model.ProductId;
 			return RedirectToAction("ProductDetail", new { id = id }); //💀
+		}
+		public IActionResult AddToCartSingle(int id)
+		{
+			Product prod = _context.Products.Single(p => p.Id == id);
+			OrderItemModel oi = new(prod, 1);
+			return AddToCart(oi);
 		}
 	}
 }
