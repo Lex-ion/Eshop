@@ -1,5 +1,8 @@
 ﻿using Eshop.Database;
+using Eshop.Models;
+using Eshop.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace Eshop.Controllers
 {
@@ -17,13 +20,28 @@ namespace Eshop.Controllers
 		public IActionResult ProductDetail(int id)
 		{
 			ViewBag.RootPath = _environment.WebRootPath;
-			return View(_context.Products.Single(p => p.Id == id));
+			Product prod = _context.Products.Single(p => p.Id == id);
+			OrderItemModel oi = new(prod,1);
+			return View(oi);
 		}
 
-		public IActionResult AddToCart(int id)
+		public IActionResult AddToCart(OrderItemModel model)
 		{
+			Dictionary<int,int> cart;
+			string? cartJson = HttpContext.Session.GetString("CartJSON");
+			if (cartJson is null)
+				cart = new();
+			else cart = JsonSerializer.Deserialize<Dictionary<int, int>>(cartJson);
 
-			return RedirectToAction("ProductDetail", id);
+			if( !cart.TryAdd(model.ProductId, model.Count))
+			{
+				cart[model.ProductId] += model.Count;
+			}
+
+			HttpContext.Session.SetString("CartJSON", JsonSerializer.Serialize(cart));
+
+			int id = model.ProductId;
+			return RedirectToAction("ProductDetail", new { id = id }); //💀
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using Eshop.Database;
 using Eshop.Entities;
+using Eshop.Helpers;
 using Eshop.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ namespace Eshop.Controllers
 		{
 			if (model!.Products == null)
 				model = new MainPageModel(_context.Products.ToList(), null);
-
+			ViewBag.UserInfo = UserInfoExtractorHelper.GetUserInfo(_context,HttpContext);
 			return View(model);
 		}
 

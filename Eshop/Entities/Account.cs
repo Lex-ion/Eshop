@@ -24,8 +24,8 @@ namespace Eshop.Entities
 		[Column("Mail")]
 		public string Mail { get; set; }
 
-		[Column("PASSWORD")]
-		string Password { get; set; }
+		[Column("Password")]
+		public string Password { get; set; }
 
 		[Column("RegistrationDate")]
 		public DateTime RegistrationDate { get; set; }

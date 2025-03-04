@@ -1,13 +1,21 @@
-﻿using Microsoft.Extensions.Primitives;
+﻿using Eshop.Attributes;
+using Microsoft.Extensions.Primitives;
+using System.ComponentModel.DataAnnotations;
 
 namespace Eshop.Models
 {
 	public class RegistrationModel
 	{
+		[MaxLength(50)]
 		public string Name { get; set; }
-		public string Lastname { get; set; }
-		public string Email { get; set; }
-		public string Adress { get; set; }
+        [MaxLength(50)]
+        public string Lastname { get; set; }
+        [MaxLength(100)]
+        public string Email { get; set; }
+        [MaxLength(100)]
+        public string Adress { get; set; }
+		[Matchfields("PasswordRepeat")]
+		[MinLength(3)]
 		public string Password { get; set; }
 		public string PasswordRepeat { get; set; }
 
