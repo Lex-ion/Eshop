@@ -7,14 +7,12 @@ using Eshop.Helpers;
 
 namespace Eshop.Controllers
 {
-	public class ProductController : Controller
+	public class ProductController : BaseController
 	{
-		DatabaseContext _context;
 		IWebHostEnvironment _environment;
 
-		public ProductController(DatabaseContext context, IWebHostEnvironment environment)
+		public ProductController(DatabaseContext context, IWebHostEnvironment environment) : base(context)
 		{
-			_context = context;
 			_environment = environment;
 		}
 

@@ -7,20 +7,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Eshop.Controllers
 {
-	public class MainPageController : Controller
+	public class MainPageController : BaseController
 	{
-		DatabaseContext _context;
-
-		public MainPageController(DatabaseContext context)
+		public MainPageController(DatabaseContext context) : base(context)
 		{
-			_context = context;
 		}
 
 		public IActionResult Index(MainPageModel? model = null)
 		{
 			if (model!.Products == null)
 				model = new MainPageModel(_context.Products.ToList(), null);
-			ViewBag.UserInfo = UserInfoExtractorHelper.GetUserInfo(_context,HttpContext);
 			return View(model);
 		}
 

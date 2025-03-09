@@ -3,16 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Eshop.Controllers
 {
-    public class ManufacturerController : Controller
-    {
-        DatabaseContext _context;
+    public class ManufacturerController : BaseController
+	{
+		public ManufacturerController(DatabaseContext context) : base(context)
+		{
+		}
 
-        public ManufacturerController(DatabaseContext context)
-        {
-            _context = context;
-        }
-
-        public IActionResult Index(int id)
+		public IActionResult Index(int id)
         {
             return View(_context.Manufacturers.Single(m=>m.Id==id));
         }
