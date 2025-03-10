@@ -13,10 +13,15 @@ namespace Eshop.Controllers
 		{
 		}
 
-		public IActionResult Index(MainPageModel? model = null)
+		public IActionResult Index(string? SearchString)
 		{
-			if (model!.Products == null)
-				model = new MainPageModel(_context.Products.ToList(), null);
+			List<Product> products = _context.Products.ToList();
+
+			if(!string.IsNullOrWhiteSpace(SearchString))
+				products = Search(SearchString);
+
+			MainPageModel model = new MainPageModel(products,SearchString);
+
 			return View(model);
 		}
 
@@ -38,13 +43,11 @@ namespace Eshop.Controllers
 			return RedirectToAction("Index");
 		}
 
-		public IActionResult Search(MainPageModel model)
+		public List<Product> Search(string searchString)
 		{
-			if (string.IsNullOrEmpty(model.SearchString))
-				return RedirectToAction("Index");
 
 			Dictionary<Product, int> searchItems = new Dictionary<Product, int>();
-			string[] searchParams = model.SearchString.ToLower().Split(' ');
+			string[] searchParams = searchString.ToLower().Split(' ');
 			StringComparison c = StringComparison.OrdinalIgnoreCase;
 
 			var prods = _context.Products.ToList();
@@ -89,9 +92,9 @@ namespace Eshop.Controllers
 			}
 
 			List<Product> sorted = searchItems.OrderByDescending(entry => entry.Value).Select(entry => entry.Key).ToList();
-			model.Products = sorted;
 
-			return View("Index", model);
+
+			return sorted;
 
 		}
 	}

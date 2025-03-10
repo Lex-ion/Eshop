@@ -1,3 +1,4 @@
+using Eshop.Attributes;
 using Eshop.Database;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,8 +17,9 @@ namespace Eshop
 				options.UseMySQL(connectionString)
 			);
 
+			builder.Services.AddScoped<ImportEntitiesAttribute>();
 
-            builder.Services.AddDistributedMemoryCache();
+			builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);

@@ -13,8 +13,8 @@
         @TempData["Message"]
     </div>
 }
-<form class="d-flex" asp-action="Search" style="margin:15px;">
-    <input asp-for="SearchString" class="form-control me-2" type="search" placeholder="Hledat..." aria-label="Vyhledávání">
+<form class="d-flex" method="get" asp-action="Index" style="margin:15px;">
+    <input name="SearchString" class="form-control me-2" type="search" placeholder="Hledat..." aria-label="Vyhledávání">
     <button class="btn btn-outline-success" type="submit">Hledat</button>
 </form>
 
