@@ -6,10 +6,15 @@
         <!-- Obrázky -->
         <div class="col-md-6 text-center">
             <img id="mainImage" src="/Imgs/Products/@Model.Product.Id/0.png" class="img-fluid rounded shadow-lg mb-3"
-            alt="@Model.Product.Name" style="max-width: 100%; height: auto;">
+            alt="@Model.Product.Name" style="max-width: 100%; height: auto;"
+                 onerror="this.onerror=null;this.src='/Imgs/System/MissingImg.png';">
 
             <!-- Miniatury -->
             @{
+                try
+                {
+
+                
                 string path = "/Imgs/Products/" + Model.Product.Id.ToString() + "/";
                 FileInfo[] files = new DirectoryInfo(ViewBag.RootPath + "/Imgs/Products/" + Model.Product.Id.ToString()).GetFiles();
                 if (files.Length > 1)
@@ -25,6 +30,10 @@
                             onclick="changeImage('@imgPath')">
                         }
                     </div>
+                }
+                }
+                catch (Exception)
+                {
                 }
             }
         </div>
