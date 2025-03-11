@@ -39,7 +39,7 @@
     </div>
 
     <div class="mb-3 row">
-        <label asp-for="AvailableCount" class="col-sm-2 col-form-label fw-bold">Dostupnost</label>
+        <label asp-for="AvailableCount" class="col-sm-2 col-form-label fw-bold">Dostupnost (ks)</label>
         <div class="col-sm-10">
             <input asp-for="AvailableCount" type="number" min="0" class="form-control">
             <span asp-validation-for="AvailableCount" class="text-danger"></span>
@@ -65,7 +65,7 @@
             <i class="fas fa-save"></i> Uložit
         </button>
         <a class="btn btn-danger" asp-controller="Admin" asp-action="Products">
-            <i class="fas fa-times"></i> Zrušit
+            <i class="fas fa-times"></i> Zpět na seznam
         </a>
     </div>
 </form>

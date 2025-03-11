@@ -18,9 +18,15 @@ namespace Eshop.Controllers
 
 			model.Manufacturers = _context.Manufacturers.ToList();
 			ModelState.MarkFieldValid("Manufacturers");
-			bool a = ModelState.IsValid;
-
+			
+			if(!ModelState.IsValid||model.ManufacturerID <=0 )
 			return View(model);
+
+			Product p = new(0, model.Name, model.Description, model.Price, model.Discount, model.AvailableCount, model.ManufacturerID, null, null, null);
+			_context.Products.Add(p);
+			_context.SaveChanges();
+		
+			return RedirectToAction("EditProduct", new {p.Id});
 		}
 
 		public IActionResult EditProduct(int id) 
