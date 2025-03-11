@@ -1,19 +1,25 @@
-﻿
-<div class="container mt-4">
-    <h2 class="text-center mb-4">Správa obrázků</h2>
+﻿<a href="/admin/editProducts/@ViewBag.Id" class="btn btn-primary my-3">
+    <i class="fas fa-edit"></i> Přejít na správu produktu
+</a>
 
-    <div class="row">
+<div class="container mt-4">
+    <h2 class="text-center mb-4">📸 Správa obrázků</h2>
+
+    <div class="row justify-content-center">
         @foreach (var image in ViewBag.Images)
         {
-            <div class="col-md-4">
-                <div class="card shadow-sm mb-4">
-                    <img src="~/Imgs/@ViewBag.Type/@ViewBag.Id/@image" class="card-img-top" alt="Obrázek">
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card shadow-sm mb-4 border-0">
+                    <img src="~/Imgs/@ViewBag.Type/@ViewBag.Id/@image" class="card-img-top rounded" alt="Obrázek">
+
                     <div class="card-body text-center">
                         <form asp-action="DeleteImage" asp-controller="Admin" method="post">
                             <input type="hidden" name="type" value="@ViewBag.Type" />
                             <input type="hidden" name="id" value="@ViewBag.Id" />
                             <input type="hidden" name="fileName" value="@image" />
-                            <button type="submit" class="btn btn-danger w-100">Smazat</button>
+                            <button type="submit" class="btn btn-danger w-100">
+                                <i class="fas fa-trash-alt"></i> Smazat
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -23,15 +29,45 @@
 
     <hr class="my-4">
 
-    <h3 class="text-center mb-3">Přidat nový obrázek</h3>
+    <h3 class="text-center mb-3">➕ Přidat nový obrázek</h3>
     <form asp-action="UploadImage" asp-controller="Admin" method="post" enctype="multipart/form-data" class="text-center">
         <input type="hidden" name="type" value="@ViewBag.Type" />
         <input type="hidden" name="id" value="@ViewBag.Id" />
 
-        <div class="mb-3">
-            <input type="file" name="image" accept="image/png" class="form-control" required />
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <input type="file" name="image" accept="image/png" class="form-control" required />
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-upload"></i> Nahrát
+                    </button>
+                </div>
+            </div>
         </div>
-
-        <button type="submit" class="btn btn-success">Nahrát obrázek</button>
     </form>
 </div>
+
+<style>
+    .card img {
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .card img:hover {
+            transform: scale(1.05);
+        }
+
+    .btn-success {
+        background: #28a745;
+        border: none;
+    }
+
+    .btn-danger {
+        background: #dc3545;
+        border: none;
+    }
+</style>
+
+<!-- Font Awesome pro ikonky -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">

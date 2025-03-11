@@ -1,5 +1,83 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@using Eshop.Models;
+@model ProductFormModel
+
+<form asp-action="@ViewData["Action"]Product" class="shadow p-4 rounded bg-light">
+    <h3 class="text-center mb-4">@((ViewData["Action"]?.ToString() == "Edit" ? "✏️ Upravit produkt" : "➕ Přidat produkt"))</h3>
+
+    <input type="hidden" asp-for="Id">
+
+    <div class="mb-3 row">
+        <label asp-for="Name" class="col-sm-2 col-form-label fw-bold">Název</label>
+        <div class="col-sm-10">
+            <input asp-for="Name" required class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <label asp-for="Description" class="col-sm-2 col-form-label fw-bold">Popis</label>
+        <div class="col-sm-10">
+            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <label asp-for="Price" class="col-sm-2 col-form-label fw-bold">Cena</label>
+        <div class="col-sm-10">
+            <input asp-for="Price" required type="number" min="1" class="form-control">
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <label asp-for="Discount" class="col-sm-2 col-form-label fw-bold">Sleva</label>
+        <div class="col-sm-10">
+            <input asp-for="Discount" type="number" class="form-control">
+            <span asp-validation-for="Discount" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <label asp-for="AvailableCount" class="col-sm-2 col-form-label fw-bold">Dostupnost</label>
+        <div class="col-sm-10">
+            <input asp-for="AvailableCount" type="number" min="0" class="form-control">
+            <span asp-validation-for="AvailableCount" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <label asp-for="ManufacturerID" class="col-sm-2 col-form-label fw-bold">Výrobce</label>
+        <div class="col-sm-10">
+            <select asp-for="ManufacturerID" class="form-select">
+                <option disabled selected value="-1">Vyberte výrobce...</option>
+                @foreach (var m in Model.Manufacturers)
+                {
+                    <option value="@m.Id">@m.Name</option>
+                }
+            </select>
+            <span asp-validation-for="ManufacturerID" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-save"></i> Uložit
+        </button>
+        <a class="btn btn-danger" asp-controller="Admin" asp-action="Products">
+            <i class="fas fa-times"></i> Zrušit
+        </a>
+    </div>
+</form>
+
+@if (ViewData["Action"]?.ToString() == "Edit")
+{
+    <div class="text-center mt-4">
+        <a href="/admin/Images/Products/@Model.Id" class="btn btn-warning">
+            <i class="fas fa-images"></i> Spravovat obrázky
+        </a>
+    </div>
 }
+
+<!-- Bootstrap & FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
