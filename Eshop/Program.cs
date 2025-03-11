@@ -1,5 +1,6 @@
 using Eshop.Attributes;
 using Eshop.Database;
+using Eshop.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Eshop
@@ -16,6 +17,9 @@ namespace Eshop
 			builder.Services.AddDbContext<DatabaseContext>(options =>
 				options.UseMySQL(connectionString)
 			);
+            
+            IntegrityHelper.Start(builder.Configuration,builder.Environment);
+            
 
 			builder.Services.AddScoped<ImportEntitiesAttribute>();
 
