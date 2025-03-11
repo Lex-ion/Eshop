@@ -1,11 +1,16 @@
 ﻿@using Eshop.Entities;
+@using Eshop.Helpers
 @model OrderItemModel;
 
 <div class="container mt-5">
     <div class="row">
         <!-- Obrázky -->
         <div class="col-md-6 text-center">
-            <img id="mainImage" src="/Imgs/Products/@Model.Product.Id/0.png" class="img-fluid rounded shadow-lg mb-3"
+            @{
+
+                string embed = @IntegrityHelper.GetEmbed("Products", Model.Product.Id)?.Name??"unknown";
+            }
+            <img id="mainImage" src="/Imgs/Products/@Model.Product.Id/@embed" class="img-fluid rounded shadow-lg mb-3"
             alt="@Model.Product.Name" style="max-width: 100%; height: auto;"
                  onerror="this.onerror=null;this.src='/Imgs/System/MissingImg.png';">
 

@@ -9,7 +9,7 @@ namespace Eshop.Helpers
 		public static string[] AllowedDirectories => _configuration?.GetSection("AllowedImgDirs").Get<string[]>()
 					 ?? throw new KeyNotFoundException();
 
-		public static string CombineImageFolderPath(string directoryName, int entityId) => _webHostEnvironment!.WebRootPath + "/Imgs/" + directoryName + "/" + entityId;
+		public static string CombineImageFolderPath(string directoryName, int entityId) =>Path.Combine( _webHostEnvironment!.WebRootPath ,"Imgs", directoryName, entityId.ToString());
 
 		public static void Start(IConfiguration configuration,IWebHostEnvironment webHostEnvironment)
 		{
@@ -38,6 +38,15 @@ namespace Eshop.Helpers
 			
 			string path = _webHostEnvironment.WebRootPath + "/Imgs/" + type +"/"+ entityId;
 			return new DirectoryInfo(path).GetFiles();
+		}
+
+		public static FileInfo? GetEmbed(string type, int entityId)
+		{
+			if (!DirectoryExists(type, entityId))
+				return null;
+
+			DirectoryInfo di = new(CombineImageFolderPath(type, entityId));
+			return di.GetFiles().FirstOrDefault();
 		}
 
 		public static bool DirectoryIsValid(string directoryName)=>AllowedDirectories.Contains(directoryName);

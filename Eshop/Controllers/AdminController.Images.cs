@@ -10,8 +10,10 @@ namespace Eshop.Controllers
 		[Route("admin/images/{type}/{id}")]
 		public IActionResult ViewImages(string type, int id)
 		{
-			if (!IntegrityHelper.DirectoryExists(type, id))
+			if (!IntegrityHelper.DirectoryIsValid(type))
 				return RedirectToAction("Index");
+			string uploadFolder = IntegrityHelper.CombineImageFolderPath(type, id);
+			Directory.CreateDirectory(uploadFolder);
 
 			ViewBag.Type = type;
 			ViewBag.Id = id;
