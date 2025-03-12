@@ -13,6 +13,7 @@ namespace Eshop.Controllers
 
 		public IActionResult Index()
 		{
+			return RedirectToAction("Products");
 			var aliases = AliasHelper.GetMethodAliases<AdminController>();
 
 			return View(aliases);
@@ -27,7 +28,7 @@ namespace Eshop.Controllers
 			return View("EntitiesList");
 		}
 
-
+		
 		[Alias("Kategorie")]
 		[ServiceFilter(typeof(ImportEntitiesAttribute))]
 		public IActionResult Categories()
@@ -47,7 +48,7 @@ namespace Eshop.Controllers
 
 			return View("EntitiesList");
 		}
-
+		
 
 	}
 }

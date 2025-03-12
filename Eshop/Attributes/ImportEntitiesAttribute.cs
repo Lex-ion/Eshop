@@ -1,4 +1,6 @@
-﻿using Eshop.Database;
+﻿using Eshop.Controllers;
+using Eshop.Database;
+using Eshop.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -41,6 +43,9 @@ namespace Eshop.Attributes
 
 			(context.Controller as Controller).ViewBag.Entities = entityList;
 			(context.Controller as Controller).ViewBag.Type = propertyInfo.Name;
+			(context.Controller as Controller).ViewBag.Types = AliasHelper.GetMethodAliases<AdminController>();
+
+
 
 
 		}
