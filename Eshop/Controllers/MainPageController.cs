@@ -61,14 +61,23 @@ namespace Eshop.Controllers
 					else
 						searchItems[item] = 1;
 				}
-				foreach (var item in prods.Where(p => p.Description.ToLower().Contains(param)))
+				foreach (var item in prods.Where(p => p.Description?.ToLower().Contains(param)??false))
 				{
 					if (searchItems.ContainsKey(item))
 						searchItems[item]++;
 					else
 						searchItems[item] = 1;
 				}
-				
+
+
+				foreach (var item in prods.Where(p => p.Manufacturer.Name.ToLower().Contains(param)))
+				{
+					if (searchItems.ContainsKey(item))
+						searchItems[item]++;
+					else
+						searchItems[item] = 1;
+				}
+
 				foreach (var prod in prods)
 				{
 					foreach (var prodCats in prod.ProductCategories.Where(p => p.Category.Name.ToLower().Contains(param)))
