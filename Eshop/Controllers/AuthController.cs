@@ -17,6 +17,9 @@ namespace Eshop.Controllers
 
 		public IActionResult Login()
 		{
+
+			if(UserInfoExtractorHelper.GetUserInfo(_context,HttpContext).IsAuthenticated)
+			return RedirectToAction("Index", "Mainpage");
 			return View();
 		}
 		[HttpPost]
@@ -29,6 +32,10 @@ namespace Eshop.Controllers
 
             HttpContext.Session.SetInt32("UID", acc.Id);
             HttpContext.Session.SetInt32("RID", acc.AccountTypeId);
+
+			acc.LastLogin = DateTime.Now;
+			_context.Accounts.Update(acc);
+			_context.SaveChanges();
 
             return RedirectToAction("Index", "Mainpage");
 		}
