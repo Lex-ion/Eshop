@@ -1,0 +1,35 @@
+﻿@{
+    string add = $"Add{ViewBag.Type}";
+    string edit = $"Edit{ViewBag.Type}";
+    string delete = $"Delete{ViewBag.Type}";
+}
+
+<div class="d-flex justify-content-between mb-3">
+    <h2>Seznam entit</h2>
+    <div>
+        <a asp-action="@add" class="btn btn-success">Přidat</a>
+        <a asp-action="@ViewBag.Type" class="btn btn-primary">Obnovit</a>
+        
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Název</th>
+            <th>Akce</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.Entities)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>
+                    <a asp-action="@edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Upravit</a>
+                    <a asp-route-id="@item.Id" asp-action="@delete" class="btn btn-danger btn-sm" onclick="return confirm('Opravdu chcete smazat tento záznam?');">Smazat</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

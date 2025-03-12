@@ -13,7 +13,7 @@ namespace Eshop.Controllers
 			if (!IntegrityHelper.DirectoryIsValid(type))
 				return RedirectToAction("Index");
 			string uploadFolder = IntegrityHelper.CombineImageFolderPath(type, id);
-			Directory.CreateDirectory(uploadFolder);
+			Directory.CreateDirectory(uploadFolder); 
 
 			ViewBag.Type = type;
 			ViewBag.Id = id;

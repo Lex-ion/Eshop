@@ -40,6 +40,8 @@ namespace Eshop.Attributes
 			var entityList = toListMethod.Invoke(null, new object[] { dbSetInstance });
 
 			(context.Controller as Controller).ViewBag.Entities = entityList;
+			(context.Controller as Controller).ViewBag.Type = propertyInfo.Name;
+
 
 		}
 	}

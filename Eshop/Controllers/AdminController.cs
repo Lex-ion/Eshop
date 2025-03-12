@@ -24,7 +24,7 @@ namespace Eshop.Controllers
 		{
 
 
-			return View();
+			return View("EntitiesList");
 		}
 
 
@@ -34,7 +34,8 @@ namespace Eshop.Controllers
 		{
 
 
-			return View();
+
+			return View("EntitiesList");
 		}
 
 
@@ -44,7 +45,7 @@ namespace Eshop.Controllers
 		{
 
 
-			return View();
+			return View("EntitiesList");
 		}
 
 
