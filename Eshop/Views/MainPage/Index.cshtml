@@ -60,7 +60,7 @@
                                     }
 
                                     <div class="align-content-center">
-                                        @if (p.Discount is null)
+                                        @if (p.Discount is null||p.Discount <= 0)
                                         {
                                             <h5 class="card-title">@p.Price Kč</h5>
                                         }

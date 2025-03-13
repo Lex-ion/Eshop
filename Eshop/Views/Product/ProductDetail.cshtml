@@ -55,7 +55,7 @@
 
             <!-- Cena produktu -->
             <div class="my-4">
-                @if (Model.Product.Discount is null)
+                @if (Model.Product.Discount is null||Model.Product.Discount <=0)
                 {
                     <h2 class="fw-bold">@Model.Product.Price Kč</h2>
                 }
