@@ -38,14 +38,14 @@ namespace Eshop.Controllers
 				return View();
 			}
 
-			if(_context.Categories.Any(c=>c.Name.ToLower()==model.Name.ToLower()))
+			if (_context.Categories.Any(c => c.Name.ToLower() == model.Name.ToLower()))
 			{
 				TempData["MessageType"] = "danger";
 				TempData["Status"] = "Kategorie s tímto názvem již existuje!";
 				return View();
 			}
 
-			Category c = new(0, model.Name, model.Description,null!);
+			Category c = new(0, model.Name, model.Description, null!);
 			_context.Categories.Add(c);
 			_context.SaveChanges();
 			return RedirectToAction("Categories");

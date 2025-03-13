@@ -1,6 +1,14 @@
-﻿<a href="/admin/editProduct/@ViewBag.Id" class="btn btn-primary my-3">
+﻿
+@if(ViewBag.Type == "Products"){
+
+<a href="/admin/editProduct/@ViewBag.Id" class="btn btn-primary my-3">
     <i class="fas fa-edit"></i> Přejít na správu produktu
 </a>
+} else if(ViewBag.Type =="Manufacturers"){
+    <a href="/admin/editManufacturer/@ViewBag.Id" class="btn btn-primary my-3">
+        <i class="fas fa-edit"></i> Přejít na správu výrobce
+    </a>
+}
 
 <div class="container mt-4">
     <h2 class="text-center mb-4">📸 Správa obrázků</h2>
