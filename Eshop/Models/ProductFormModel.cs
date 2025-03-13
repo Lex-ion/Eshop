@@ -1,4 +1,5 @@
-﻿using Eshop.Entities;
+﻿using Eshop.Attributes;
+using Eshop.Entities;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
@@ -14,9 +15,10 @@ namespace Eshop.Models
 
 		[MaxLength(500)]
 		public string? Description { get; set; }
-
+		[MaxValue(99999999.99)]
 		public decimal Price { get; set; }
 
+		[IsLessThan("Price")]
 		public decimal? Discount { get; set; }
 
 		public int? AvailableCount { get; set; }

@@ -51,6 +51,8 @@ namespace Eshop.Controllers
 		}
 		[HttpPost]
 		[Route("Admin/EditProducts")]
+		[Route("Admin/EditProduct")]
+		[Route("Admin/EditProduct/{id}")]
 		public IActionResult EditProduct(ProductFormModel model)
 		{
 			model.Manufacturers = _context.Manufacturers.ToList();
