@@ -1,4 +1,5 @@
 ﻿@using Eshop.Entities;
+@using Eshop.Helpers
 @model Manufacturer;
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -6,22 +7,33 @@
 @{
 }
 
-<h1>@Model.Name</h1>
+<div class="d-flex align-items-center">
+    <!-- Logo výrobce -->
+
+    @{
+        FileInfo? embed = IntegrityHelper.GetEmbed("Manufacturers", Model.Id);
+        string path = embed is null?"":embed.Name;
+       
+    }
+
+    <img src="/Imgs/Manufacturers/@Model.Id/@path alt="@Model.Name logo" class="mr-3" style="width: auto; height: 75px; object-fit: contain;" onerror="this.onerror=null;this.src='/Imgs/System/MissingImg.png';">
+
+    <h1>@Model.Name</h1>
+</div>
 <p>@Model.Description</p>
 <div class="opacity-25 bg-opacity-25 bg-black">
-<hr />
+    <hr />
 </div>
 <h1>Produkty od výrobce:</h1>
 <br />
 <div class="container">
 
-
     <div class="row">
-       
-            @foreach (var p in Model.Products)
-            {
-                <div class="col-md-3 mb-4 d-flex">
-                    <div class="card flex-fill d-flex flex-column">
+
+        @foreach (var p in Model.Products)
+        {
+            <div class="col-md-3 mb-4 d-flex">
+                <div class="card flex-fill d-flex flex-column">
                     <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@p.Id" class="text-decoration-none text-dark w-100">
 
                         <img src="/Imgs/Products/@p.Id/0.png" class="card-img-top" alt="...">
@@ -30,53 +42,53 @@
                         <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@p.Id" class="text-decoration-none text-dark w-100">
 
                             <h5 class="card-title">@p.Name</h5>
-                        
+
                             <p class="card-text">@p.Description?.Substring(0, 45)...</p>
                         </a>
 
 
-                            <div class="mt-auto">
-                                <div class="d-flex justify-content-around mb-3">
-                                    @if (p.AvailableCount is null)
+                        <div class="mt-auto">
+                            <div class="d-flex justify-content-around mb-3">
+                                @if (p.AvailableCount is null)
+                                {
+                                    <button class="btn btn-primary text-wrap align-content-center disabled">Do košíku</button>
+                                }
+                                else
+                                {
+                                    <a asp-controller="MainPage" asp-action="AddToCart" asp-route-id="@p.Id" class="btn btn-primary text-wrap align-content-center">Do košíku</a>
+                                }
+
+                                <div class="align-content-center">
+                                    @if (p.Discount is null)
                                     {
-                                        <button class="btn btn-primary text-wrap align-content-center disabled">Do košíku</button>
+                                        <h5 class="card-title">@p.Price Kč</h5>
                                     }
                                     else
                                     {
-                                        <a asp-controller="MainPage" asp-action="AddToCart" asp-route-id="@p.Id" class="btn btn-primary text-wrap align-content-center">Do košíku</a>
-                                    }
-
-                                    <div class="align-content-center">
-                                        @if (p.Discount is null)
-                                        {
-                                            <h5 class="card-title">@p.Price Kč</h5>
-                                        }
-                                        else
-                                        {
-                                            decimal newPrice = p.Price - (p.Discount ?? 0);
-                                            <h5 class="card-title text-danger">@newPrice Kč</h5>
-                                            <h6 class="card-subtitle mb-2 text-muted text-decoration-line-through">@p.Price Kč</h6>
-                                        }
-                                    </div>
-                                </div>
-
-                                <div class="text-center">
-                                    @if (p.AvailableCount is not null)
-                                    {
-                                        <h6 class="card-subtitle mb-2 text-muted">Skladem: @p.AvailableCount ks</h6>
-                                    }
-                                    else
-                                    {
-                                        <h6 class="card-subtitle mb-2 text-muted">Nedostupné</h6>
+                                        decimal newPrice = p.Price - (p.Discount ?? 0);
+                                        <h5 class="card-title text-danger">@newPrice Kč</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted text-decoration-line-through">@p.Price Kč</h6>
                                     }
                                 </div>
                             </div>
 
+                            <div class="text-center">
+                                @if (p.AvailableCount is not null)
+                                {
+                                    <h6 class="card-subtitle mb-2 text-muted">Skladem: @p.AvailableCount ks</h6>
+                                }
+                                else
+                                {
+                                    <h6 class="card-subtitle mb-2 text-muted">Nedostupné</h6>
+                                }
+                            </div>
                         </div>
+
                     </div>
                 </div>
+            </div>
 
-            }
-        
+        }
+
     </div>
 </div>
