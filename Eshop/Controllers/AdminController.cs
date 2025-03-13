@@ -19,6 +19,11 @@ namespace Eshop.Controllers
 			return View(aliases);
 		}
 
+
+		//------------------------ADMIN PAGE HEADERS------------------------\\
+		//---SPECIFY HEADERS IN THE ORDER IN WHICH THEY WILL BE DISPLAYED---\\
+
+
 		[Alias("Produkty")]
 		[ServiceFilter(typeof(ImportEntitiesAttribute))]
 		public IActionResult Products()
