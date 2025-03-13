@@ -48,7 +48,15 @@ namespace Eshop.Controllers
 
 			return View("EntitiesList");
 		}
-		
-		
+
+
+		[Alias("Objednávky")]
+		[ServiceFilter(typeof(ImportEntitiesAttribute))]
+		public IActionResult Orders()
+		{
+
+
+			return View("EntitiesList");
+		}
 	}
 }

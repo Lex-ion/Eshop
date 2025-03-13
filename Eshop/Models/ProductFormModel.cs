@@ -13,7 +13,7 @@ namespace Eshop.Models
 		[MaxLength(50)]
 		public string Name { get; set; }
 
-		[MaxLength(500)]
+		[MaxLength(5000)]
 		public string? Description { get; set; }
 		[MaxValue(99999999.99)]
 		public decimal Price { get; set; }

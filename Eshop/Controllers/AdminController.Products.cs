@@ -8,6 +8,7 @@ namespace Eshop.Controllers
 	public partial class AdminController
 	{
 		[Route("Admin/AddProducts")]
+		[Route("Admin/AddProduct")]
 		public IActionResult AddProduct()
 		{
 			ProductFormModel model = new();
@@ -16,6 +17,7 @@ namespace Eshop.Controllers
 		}
 		[HttpPost]
 		[Route("Admin/AddProducts")]
+		[Route("Admin/AddProduct")]
 		public IActionResult AddProduct(ProductFormModel model)
 		{
 
