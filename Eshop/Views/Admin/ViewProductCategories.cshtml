@@ -1,0 +1,57 @@
+﻿@using Eshop.Entities
+
+<a href="/admin/editProduct/@ViewBag.Id" class="btn btn-primary my-3">
+    <i class="fas fa-edit"></i> Přejít na správu produktu
+</a>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Správa kategorií: <span class="fst-italic">@ViewBag.Product.Name</span> </h2>
+
+    <div class="row justify-content-center">
+        @foreach (ProductCategory pc in ViewBag.Product.ProductCategories)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card shadow-sm mb-4 border-0 rounded">
+                    <div class="card-body text-center">
+                        <h5>@pc.Category.Name</h5>
+                        <form asp-action="RemoveCategory" asp-controller="Admin" method="post" class="d-inline-block">
+                            <input type="hidden" name="id" value="@pc.ProductId" />
+                            <input type="hidden" name="category" value="@pc.Category.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> Smazat
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <hr class="my-4">
+
+    <h3 class="text-center mb-3">➕ Přidat novou kategorii</h3>
+    <form asp-action="AddCategory" asp-controller="Admin" method="post" enctype="multipart/form-data" class="text-center">
+
+        <input type="hidden" name="id" value="@ViewBag.Id" />
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <select name="category" required class="form-select">
+                        <option disabled selected value="-1">Vyberte...</option>
+                        @foreach (Category cat in ViewBag.Categories)
+                        {
+                            <option value="@cat.Id">@cat.Name</option>
+                        }
+                    </select>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-upload"></i> Přidat
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Font Awesome pro ikonky -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">

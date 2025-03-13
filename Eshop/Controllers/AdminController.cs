@@ -49,6 +49,6 @@ namespace Eshop.Controllers
 			return View("EntitiesList");
 		}
 		
-
+		
 	}
 }

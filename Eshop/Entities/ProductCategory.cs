@@ -13,21 +13,21 @@ namespace Eshop.Entities
 
 
 		[Column("CategoryID")]
-		public int CategorytId { get; set; }
+		public int CategoryId { get; set; }
 		public virtual Category Category { get; set; }
 
 		public ProductCategory(int productId, Product product, int categorytId, Category category)
 		{
 			ProductId = productId;
 			Product = product;
-			CategorytId = categorytId;
+			CategoryId = categorytId;
 			Category = category;
 		}
 
 		public ProductCategory()
 		{
 			ProductId = 0;
-			CategorytId = 0;
+			CategoryId = 0;
 			Product = null!;
 			Category = null!;
 		}

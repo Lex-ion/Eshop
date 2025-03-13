@@ -25,6 +25,22 @@ namespace Eshop.Database
         {
             optionsBuilder.UseLazyLoadingProxies();
         }
-	}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+			modelBuilder.Entity<ProductCategory>()
+				.HasOne(a => a.Product)
+				.WithMany(b => b.ProductCategories)
+				.HasForeignKey(c => c.ProductId);
+
+            modelBuilder.Entity<ProductCategory>()
+                .HasOne(a => a.Category)
+                .WithMany(b => b.ProductCategories)
+                .HasForeignKey(c => c.CategoryId);
+
+
+        }
+    }
 
 }
