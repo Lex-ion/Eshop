@@ -43,5 +43,45 @@ namespace Eshop.Controllers
 			OrderItemModel oi = new(prod, 1);
 			return AddToCart(oi);
 		}
+
+
+
+		public IActionResult Review(int id)
+		{
+
+			ViewBag.RootPath = _environment.WebRootPath;
+			Product prod = _context.Products.Single(p => p.Id == id);
+			ViewBag.Product = prod;
+			ReviewModel model = new();
+			model.ProductId = id;
+			return View(model);
+		}
+		[HttpPost]
+		public IActionResult Review(ReviewModel model)
+		{
+			if (!ModelState.IsValid)
+				return View(model);
+
+			Review r = new()
+			{
+				Id = 0,
+				Description = model.ReviewText,
+				Rating = model.Rating,
+				IsDeleted = false,
+				ProductId = model.ProductId,
+				AccountID = null
+			};
+			if (!model.Anonymous)
+			{
+				r.AccountID = UserInfoExtractorHelper.GetUserInfo(_context, HttpContext).Id;
+			}
+
+			_context.Reviews.Add(r);
+			_context.SaveChanges();
+
+			return RedirectToAction("ProductDetail", new {id =model.ProductId});
+		}
+
+
 	}
 }

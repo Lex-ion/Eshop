@@ -10,7 +10,7 @@ namespace Eshop.Helpers
             int? uid = httpContext.Session.GetInt32("UID");
             
             if (uid is null)
-                return new(false, null,null,null);
+                return new(false, null,null,null,null);
 
 
             Account acc = dbContext.Accounts.Single(a=>a.Id == uid);
@@ -19,7 +19,7 @@ namespace Eshop.Helpers
             string mail = acc.Mail;
             string fName = acc.Name +" "+ acc.Lastname;
 
-            return new UserInfo(true, rid, fName, mail);
+            return new UserInfo(true, rid, fName, mail,acc.Id);
         }
     }
 }

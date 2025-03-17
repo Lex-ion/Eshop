@@ -110,30 +110,49 @@
 
 <hr />
 
-<!-- Recenze -->
-<h3>Recenze produktu:</h3>
+<!--Recenze-->
+<h3 class="mb-3">Recenze produktu</h3>
+
+<div class="d-flex align-items-center mb-4">
+    <a asp-action="Review" asp-route-id="@Model.ProductId" class="btn btn-primary">➕ Přidat recenzi</a>
+</div>
+
 <div class="container">
-    @if (Model.Product.ProductReviews.Any())
+    @if (Model.Product.ProductReviews.Any(r => !r.IsDeleted))
     {
-        @foreach (var rev in Model.Product.ProductReviews)
+        <div class="mb-4 p-3 border rounded shadow-sm bg-light">
+            <h5>Průměrné hodnocení: <span class="text-warning">@Model.Product.ProductReviews.Where(r => !r.IsDeleted).Average(r => r.Rating)/10 ⭐</span></h5>
+        </div>
+
+        @foreach (var rev in Model.Product.ProductReviews.Where(r => !r.IsDeleted))
         {
-            <div class="card p-3 mb-3 shadow-sm">
-                @if (rev.Account is null)
-                {
-                    <h4>Anonymní zákazník</h4>
-                }else{
-                    <h4>@rev.Account.Name @rev.Account.Lastname</h4>
-                }
+            <div class="card p-4 mb-3 shadow-sm border-0">
+                <div class="d-flex align-items-center mb-2">
+                    <h5 class="mb-0">
+                        @if (rev.Account is null)
+                        {
+                            <span class="text-muted">Anonymní zákazník</span>
+                        }
+                        else
+                        {
+                            <span class="fw-bold">@rev.Account.Name @rev.Account.Lastname</span>
+                        }
+                    </h5>
+                </div>
                 <h6 class="text-warning">⭐ @rev.Rating/10</h6>
-                <p>@rev.Description</p>
+                <p class="mb-0">@rev.Description</p>
             </div>
         }
     }
     else
     {
-        <p class="text-muted">Tento produkt zatím nemá žádné recenze.</p>
+        <div class="alert alert-info text-center">
+            <p class="mb-0">🔍 Tento produkt zatím nemá žádné recenze. Buďte první!</p>
+        </div>
     }
 </div>
+
+
 
 <!-- Skript pro změnu obrázku -->
 <script>

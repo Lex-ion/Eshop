@@ -1,0 +1,79 @@
+﻿@using Eshop.Entities;
+@using Eshop.Helpers
+@model ReviewModel;
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Product product = ViewBag.Product;
+
+    FileInfo? embed = IntegrityHelper.GetEmbed("Products", product.Id);
+    string path = embed is null ? "" : embed.Name;
+}
+
+<a asp-action="ProductDetail" asp-route-id="@product.Id" class="btn btn-outline-secondary mb-3">← Zpět na produkt</a>
+<div class="d-flex align-items-center mb-4 p-3 border rounded shadow-sm bg-light">
+    <img src="/Imgs/Products/@product.Id/@path"  onerror="this.onerror=null;this.src='/Imgs/System/MissingImg.png';" class="product-thumbnail me-3" style="height: 75px; object-fit: contain;">
+   <h2 class="mb-0">@product.Name</h2>
+</div>
+<h2 class="mb-4">Přidat recenzi</h2>
+
+<form method="post" asp-action="Review" class="p-4 border rounded shadow-sm bg-light">
+    <input type="hidden" asp-for="ProductId" />
+
+    <!-- Hvězdičkové hodnocení -->
+    <div class="mb-3">
+        <label class="form-label">Hodnocení:</label>
+        <div class="star-rating">
+            @for (int i = 10; i >= 1; i--)
+            {
+                <input type="radio" id="star-@i" name="Rating" value="@i" class="d-none" @(i == 5 ? "checked" : "") />
+                <label for="star-@i" class="star">★</label>
+            }
+        </div>
+    </div>
+
+    <!-- Text recenze -->
+    <div class="mb-3">
+        <label for="reviewText" class="form-label">Text recenze:</label>
+        <textarea class="form-control" id="reviewText" asp-for="ReviewText" rows="4" placeholder="Napište svou recenzi..." ></textarea>
+    </div>
+
+    <!-- Anonymní odeslání -->
+    <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="anonymous" asp-for="Anonymous">
+        <label class="form-check-label" for="anonymous">Odeslat anonymně</label>
+    </div>
+
+    <!-- Odeslání -->
+    <button type="submit" class="btn btn-primary w-100">Odeslat recenzi</button>
+</form>
+
+<!-- Styl pro hvězdičkové hodnocení -->
+<style>
+    .star-rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+        font-size: 2rem;
+        color: #ddd;
+        cursor: pointer;
+    }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            color: #ffd700;
+            transition: transform 0.2s ease;
+        }
+
+            .star-rating input:checked ~ label,
+            .star-rating label:hover,
+            .star-rating label:hover ~ label {
+                color: #ffc107;
+                transform: scale(1.2);
+            }
+</style>
