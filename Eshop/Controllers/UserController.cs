@@ -14,6 +14,7 @@ namespace Eshop.Controllers
 		{var ui = UserInfoExtractorHelper.GetUserInfo(_context, HttpContext); ;
 			ViewBag.UserInfo = ui;
 			ViewBag.Orders = _context.Orders.Where(o=>o.AccountId == ui.Id).ToList();
+			ViewBag.Account = _context.Accounts.Find(HttpContext.Session.GetInt32("UID"));
 			return View();
 		}
 	}

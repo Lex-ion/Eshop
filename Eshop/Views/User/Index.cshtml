@@ -6,10 +6,26 @@
 }
 
 <div class="container mt-4">
-    <h1 class="mb-3">👋 Vítejte, <span class="text-primary">@info.FullName</span>!</h1>
+    <!-- Personal greeting section -->
+    <div class="d-flex align-items-center mb-4">
+        <h1 class="mb-0 me-3">
+            👋 Vítejte, <span class="text-primary">@info.FullName</span>
+        </h1>
+        <h3 class="mb-0">
+            <span class="badge bg-secondary p-2 fs-6">@ViewBag.Account.AccountType.Type</span>
+        </h3>
+    </div>
 
-    <a asp-action="EditAccount" class="btn btn-outline-primary mb-4">✏️ Upravit osobní informace</a>
+    <!-- Admin Link (visible only for admins) -->
+    @if (info.Role == 1)
+    {
+        <a asp-action="Index" asp-controller="Admin" class="btn btn-outline-danger mb-4 shadow-sm">🔧 Správa pro administrátory</a>
+    }
 
+    <!-- Edit Account Button -->
+    <a asp-action="EditAccount" class="btn btn-outline-primary mb-4 shadow-sm">✏️ Upravit osobní informace</a>
+
+    <!-- Orders Section -->
     <h2 class="mb-3">📦 Vaše objednávky:</h2>
 
     @if (orders.Any())
@@ -17,10 +33,10 @@
         <div class="list-group">
             @foreach (Order o in orders)
             {
-                <a asp-action="OrderDetail" asp-route-id="@o.Id" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm">
+                <a asp-action="OrderDetail" asp-route-id="@o.Id" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm mb-2">
                     <div>
                         <strong>🗓️ @o.OrderDate.ToShortDateString()</strong>
-                        <br>
+                        <br />
                         <span class="text-muted">Položky: @o.OrderItems.Count</span>
                     </div>
                     <span class="badge bg-primary rounded-pill">📜 Detail</span>
