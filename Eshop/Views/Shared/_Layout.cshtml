@@ -33,7 +33,10 @@
                         @if (ViewBag.UserInfo is not null && ViewBag.UserInfo.IsAuthenticated)
                         {
                             <span class="me-3 fw-semibold text-primary">
+                                <a asp-controller="User" asp-action="Index">
                                 @ViewBag.UserInfo.FullName
+
+                                </a>
                             </span>
                             <a asp-controller="Auth" asp-action="Logout" class="btn btn-outline-danger">Odhlásit se</a>
                         }
