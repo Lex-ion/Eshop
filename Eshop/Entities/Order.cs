@@ -42,9 +42,19 @@ namespace Eshop.Entities
 		public int OrderStateId { get; set; }
 		public virtual OrderState OrderState { get; set; }
 
+		[Column("PaymentMethod")]
+		public int PaymentMethodId { get; set; }
+		public virtual PaymentMethod PaymentMethod { get; set; }
+
+		[Column("DeliveryMethod")]
+		public int DeliveryMethodId { get; set; }
+		public virtual DeliveryMethod DeliveryMethod { get; set; }
+
+
+
 		public virtual List<OrderItem> OrderItems { get; set; }
 
-		public Order(int id, int? accountId, Account? account, decimal totalPrice, DateTime orderDate, string name, string lastname, string adress, string mail, bool isDelivered, DateTime? deliveryDate, int orderStateId, OrderState orderState, List<OrderItem> orderItems)
+		public Order(int id, int? accountId, Account? account, decimal totalPrice, DateTime orderDate, string name, string lastname, string adress, string mail, bool isDelivered, DateTime? deliveryDate, int orderStateId, OrderState orderState, int paymentMethodId, PaymentMethod paymentMethod, int deliveryMethodId, DeliveryMethod deliveryMethod, List<OrderItem> orderItems)
 		{
 			Id = id;
 			AccountId = accountId;
@@ -59,6 +69,10 @@ namespace Eshop.Entities
 			DeliveryDate = deliveryDate;
 			OrderStateId = orderStateId;
 			OrderState = orderState;
+			PaymentMethodId = paymentMethodId;
+			PaymentMethod = paymentMethod;
+			DeliveryMethodId = deliveryMethodId;
+			DeliveryMethod = deliveryMethod;
 			OrderItems = orderItems;
 		}
 
@@ -78,6 +92,8 @@ namespace Eshop.Entities
 			OrderStateId = 0;
 			OrderState = null! ;
 			OrderItems = new();
+			DeliveryMethod = null!;
+			PaymentMethod = null!;
 		}
 	}
 }

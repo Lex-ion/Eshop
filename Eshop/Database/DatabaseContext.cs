@@ -16,6 +16,9 @@ namespace Eshop.Database
 		public DbSet<Product> Products { get; set; }
 		public DbSet<ProductCategory> ProductCategories { get; set; }
 		public DbSet<Review> Reviews { get; set; }
+		public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
+		public DbSet<PaymentMethod> PaymentMethods { get; set; }
+
 
 	   public DatabaseContext(DbContextOptions options)
             : base(options)

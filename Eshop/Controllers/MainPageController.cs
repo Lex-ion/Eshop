@@ -21,7 +21,7 @@ namespace Eshop.Controllers
 				products = Search(SearchString,_context.Products.ToList());
 
 			MainPageModel model = new MainPageModel(products,SearchString);
-
+			
 			return View(model);
 		}
 
