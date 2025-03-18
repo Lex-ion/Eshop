@@ -51,7 +51,7 @@ namespace Eshop.Controllers
 
 			Dictionary<Product, int> searchItems = new Dictionary<Product, int>();
 			string[] searchParams = searchString.ToLower().Split(' ');
-			StringComparison c = StringComparison.OrdinalIgnoreCase;
+			//StringComparison c = StringComparison.OrdinalIgnoreCase;
 
 
 			foreach (string param in searchParams)
@@ -125,6 +125,21 @@ namespace Eshop.Controllers
 				).
 				ToList();
 			model.Products= Search(filter.SearchQuery, semiFiltered);
+
+			switch (filter.PriceSort)
+			{
+				case SortByPrice.None:
+					break;
+				case SortByPrice.Ascending:
+					model.Products = model.Products.OrderBy(p => p.Price - (p.Discount ?? 0)).ToList();
+					break;
+				case SortByPrice.Descending:
+					model.Products = model.Products.OrderByDescending(p => p.Price - (p.Discount ?? 0)).ToList();
+					break;
+				default:
+					break;
+			}
+
 			return View(model);
 		}
 		
