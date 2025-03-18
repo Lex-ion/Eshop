@@ -20,7 +20,7 @@ namespace Eshop.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddCategory(int id,int category) {
+        public IActionResult AddProductCategory(int id,int category) {
 
             if(!_context.ProductCategories.Any(c=>c.ProductId==id&&c.CategoryId==category)&&category>0)
             {
@@ -38,7 +38,7 @@ namespace Eshop.Controllers
             return RedirectToAction("ViewProductCategories", new { id });
         }
         [HttpPost]
-        public IActionResult RemoveCategory(int id, int category)
+        public IActionResult RemoveProductCategory(int id, int category)
         {
             var pc = _context.ProductCategories.SingleOrDefault(c=>c.ProductId == id&&c.CategoryId==category);
             if(pc==null)

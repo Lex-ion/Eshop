@@ -14,7 +14,7 @@
                 <div class="card shadow-sm mb-4 border-0 rounded">
                     <div class="card-body text-center">
                         <h5>@pc.Category.Name</h5>
-                        <form asp-action="RemoveCategory" asp-controller="Admin" method="post" class="d-inline-block">
+                        <form asp-action="RemoveProductCategory" asp-controller="Admin" method="post" class="d-inline-block">
                             <input type="hidden" name="id" value="@pc.ProductId" />
                             <input type="hidden" name="category" value="@pc.Category.Id" />
                             <button type="submit" class="btn btn-danger btn-sm">
@@ -30,7 +30,7 @@
     <hr class="my-4">
 
     <h3 class="text-center mb-3">➕ Přidat novou kategorii</h3>
-    <form asp-action="AddCategory" asp-controller="Admin" method="post" enctype="multipart/form-data" class="text-center">
+    <form asp-action="AddProductCategory" asp-controller="Admin" method="post" enctype="multipart/form-data" class="text-center">
 
         <input type="hidden" name="id" value="@ViewBag.Id" />
 
