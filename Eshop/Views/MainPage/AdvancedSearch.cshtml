@@ -1,0 +1,134 @@
+﻿@using Eshop.Helpers
+@using Eshop.Entities;
+@using Eshop.Models;
+@model ProductSearchModel;
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    List<Category> categories = ViewBag.Categories;
+    List<Manufacturer> manufacturers = ViewBag.Manufacturers;
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-@TempData["MessageType"] mt-2">
+        @TempData["Message"]
+    </div>
+}
+<h2>🔍 Pokročilé vyhledávání</h2>
+
+<form asp-action="AdvancedSearch" method="get">
+    <div class="mb-3">
+        <label for="searchQuery" class="form-label">Název produktu</label>
+        <input type="text" id="searchQuery" name="Filter.SearchQuery" class="form-control" value="@Model.Filter.SearchQuery">
+    </div>
+
+    <!-- Filtrování podle kategorií -->
+    <div class="mb-3">
+        <h4>Kategorie</h4>
+        @foreach (var category in Model.Categories)
+        {
+            <div class="form-check">
+                <input type="checkbox" name="Filter.SelectedCategories" value="@category.Id" class="form-check-input"
+                @(Model.Filter.SelectedCategories.Contains(category.Id) ? "checked" : "")>
+                <label class="form-check-label">@category.Name</label>
+            </div>
+        }
+    </div>
+
+    <!-- Filtrování podle výrobců -->
+    <div class="mb-3">
+        <h4>Výrobci</h4>
+        @foreach (var manufacturer in Model.Manufacturers)
+        {
+            <div class="form-check">
+                <input type="checkbox" name="Filter.SelectedManufacturers" value="@manufacturer.Id" class="form-check-input"
+                @(Model.Filter.SelectedManufacturers.Contains(manufacturer.Id) ? "checked" : "")>
+                <label class="form-check-label">@manufacturer.Name</label>
+            </div>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">🔎 Hledat</button>
+</form>
+
+<hr>
+
+
+<!--List-->
+
+<div class="container">
+
+
+    <div class="row">
+        
+            @foreach (var p in Model.Products)
+            {
+                <div class="col-md-3 mb-4 d-flex">
+                    <div class="card flex-fill d-flex flex-column border"
+                         onmouseover="this.classList.add('border-primary');"
+                         onmouseout="this.classList.remove('border-primary');">
+
+                        @{
+                            string embed = @IntegrityHelper.GetEmbed("Products", @p.Id)?.Name ?? "unknown";
+                        }
+                        <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@p.Id" class="text-decoration-none text-dark w-100">
+                            <img src="/Imgs/Products/@p.Id/@embed" class="card-img-top" onerror="this.onerror=null;this.src='/Imgs/System/MissingImg.png';">
+                        </a>
+                        <div class="card-body d-flex flex-column">
+                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@p.Id" class="text-decoration-none text-dark w-100">
+                                <h5 class="card-title">@p.Name</h5>
+                            </a>
+                            <a asp-controller="Manufacturer" asp-action="Index" asp-route-id="@p.ManufacturerID">
+                                <h6 class="card-subtitle mb-2 text-muted">@p.Manufacturer.Name</h6>
+                            </a>
+                            <p class="card-text">@p.Description?.Substring(0, 45)...</p>
+
+
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-around mb-3">
+                                    @if (p.AvailableCount is null)
+                                    {
+                                        <button class="btn btn-primary text-wrap align-content-center disabled">Do košíku</button>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Product" asp-action="AddToCartSingle" asp-route-id="@p.Id" class="btn btn-primary text-wrap align-content-center">Do košíku</a>
+                                    }
+
+                                    <div class="align-content-center">
+                                        @if (p.Discount is null || p.Discount <= 0)
+                                        {
+                                            <h5 class="card-title">@p.Price Kč</h5>
+                                        }
+                                        else
+                                        {
+                                            decimal newPrice = p.Price - (p.Discount ?? 0);
+                                            <h5 class="card-title text-danger">@newPrice Kč</h5>
+                                            <h6 class="card-subtitle mb-2 text-muted text-decoration-line-through">@p.Price Kč</h6>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    @if (p.AvailableCount is not null)
+                                    {
+                                        <h6 class="card-subtitle mb-2 text-muted">Skladem: @p.AvailableCount ks</h6>
+                                    }
+                                    else
+                                    {
+                                        <h6 class="card-subtitle mb-2 text-muted">Nedostupné</h6>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            }
+        
+    </div>
+</div>

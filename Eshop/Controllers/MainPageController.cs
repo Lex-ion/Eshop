@@ -18,7 +18,7 @@ namespace Eshop.Controllers
 			List<Product> products = _context.Products.ToList();
 
 			if(!string.IsNullOrWhiteSpace(SearchString))
-				products = Search(SearchString);
+				products = Search(SearchString,_context.Products.ToList());
 
 			MainPageModel model = new MainPageModel(products,SearchString);
 
@@ -43,14 +43,16 @@ namespace Eshop.Controllers
 			return RedirectToAction("Index");
 		}
 
-		public List<Product> Search(string searchString)
+		public List<Product> Search(string searchString,List<Product> prods)
 		{
+			if (string.IsNullOrWhiteSpace(searchString))
+				return prods;
+
 
 			Dictionary<Product, int> searchItems = new Dictionary<Product, int>();
 			string[] searchParams = searchString.ToLower().Split(' ');
 			StringComparison c = StringComparison.OrdinalIgnoreCase;
 
-			var prods = _context.Products.ToList();
 
 			foreach (string param in searchParams)
 			{
@@ -106,5 +108,26 @@ namespace Eshop.Controllers
 			return sorted;
 
 		}
+
+		public IActionResult AdvancedSearch(ProductSearchModel? model)
+		{
+			if(model is null)
+				model = new ProductSearchModel();
+
+			var filter = model.Filter;
+			model.Categories=_context.Categories.ToList();
+			model.Manufacturers=_context.Manufacturers.ToList();
+			var semiFiltered = _context.Products.ToList()
+				.Where(
+				p =>
+				filter.SelectedManufacturers.Count > 0 ? filter.SelectedManufacturers.Contains(p.ManufacturerID) : true &&
+				filter.SelectedCategories.Count > 0 ? filter.SelectedCategories.All(c => p.ProductCategories.Select(pc => pc.CategoryId).Contains(c)):true
+				).
+				ToList();
+			model.Products= Search(filter.SearchQuery, semiFiltered);
+			return View(model);
+		}
+		
+		
 	}
 }
