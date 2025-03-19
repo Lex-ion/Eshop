@@ -15,7 +15,10 @@ namespace Eshop.Helpers
 			foreach (KeyValuePair<int,int> pair in cart)
 			{
 				Product prod = dbContext.Products.Single(p => p.Id == pair.Key);
-				outList.Add(new(prod, pair.Value));
+				int count = Math.Clamp(pair.Value, 0, prod.AvailableCount??0);
+				if (count < 1)
+					continue;
+				outList.Add(new(prod, count,prod.AvailableCount??0));
 			}
 
 			return outList;
@@ -32,6 +35,25 @@ namespace Eshop.Helpers
 			context.Session.SetString("CartJSON", JsonSerializer.Serialize(cart));
 		}
 
+		public static void RemoveFromCart(HttpContext context, int productId)
+		{
+			var cart = GetCartDictionary(context);
+
+			cart.Remove(productId);
+
+			context.Session.SetString("CartJSON", JsonSerializer.Serialize(cart));
+		}
+		public static void UpdateInCart(HttpContext context, int productId,int newValue)
+		{
+			var cart = GetCartDictionary(context);
+
+			if (!cart.TryAdd(productId, newValue))
+			{
+				cart[productId] = newValue;
+			}
+
+			context.Session.SetString("CartJSON", JsonSerializer.Serialize(cart));
+		}
 
 		private static Dictionary<int,int> GetCartDictionary(HttpContext context)
 		{

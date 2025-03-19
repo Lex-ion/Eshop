@@ -1,13 +1,77 @@
 ﻿@using Eshop.Entities
-@model List<OrderItemModel>;
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@foreach  (var item in Model){
+@using Eshop.Helpers
+@model List<OrderItemModel>
 
-<div>
-    @item.Product.Name      @item.Count
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">🛒 Váš nákupní košík</h2>
+
+    @if (Model.Count == 0)
+    {
+        <div class="alert alert-warning text-center" role="alert">
+            <p class="fs-5 mb-0">Váš košík je prázdný. Pokračujte v nakupování!</p>
+        </div>
+    }
+    else
+    {
+        decimal totalSum = 0;
+
+        <div class="table-responsive">
+            <table class="table table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Produkt</th>
+                        <th>Cena za kus</th>
+                        <th>Množství</th>
+                        <th>Celkem</th>
+                        <th>Akce</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        {
+                            string embed = @IntegrityHelper.GetEmbed("Products", @item.Product.Id)?.Name ?? "unknown";
+                            decimal itemPrice = (item.Product.Price - (item.Product.Discount ?? 0));
+                            decimal itemTotal = itemPrice * item.Count;
+                            totalSum += itemTotal;
+
+                            int maxCount = item.Product.AvailableCount ?? 0;
+
+                        <tr>
+                            <td class="fw-bold d-flex align-items-center">
+                                <img src="~/Imgs//Products/@item.Product.Id/@embed" alt="@item.Product.Name" class="me-2" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;" onerror="this.onerror=null;this.src='/Imgs/System/MissingImg.png';">
+                                @item.Product.Name
+                            </td>
+                            <td>@itemPrice Kč</td>
+                            <td>
+                                <form asp-action="UpdateQuantity" method="post" class="d-flex justify-content-center align-items-center">
+                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                    <input type="number" max="@maxCount" name="count" value="@item.Count" min="1" class="form-control text-center w-50 mx-2" />
+                                    <button type="submit" class="btn btn-outline-success">✔</button>
+                                </form>
+                            </td>
+                            <td>@itemTotal Kč</td>
+                            <td>
+                                <form asp-action="RemoveFromCart" method="post">
+                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                    <button type="submit" class="btn btn-outline-danger">🗑</button>
+                                </form>
+                            </td>
+                        </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-end fs-4 fw-bold">Celková suma: @totalSum Kč</div>
+
+        <div class="text-center mt-4">
+            <form asp-action="Checkout" method="post">
+                <button type="submit" class="btn btn-lg btn-primary shadow">Pokračovat k platbě 💳</button>
+            </form>
+        </div>
+    }
 </div>
-}

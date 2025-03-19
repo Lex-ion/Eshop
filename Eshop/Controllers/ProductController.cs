@@ -26,7 +26,7 @@ namespace Eshop.Controllers
 
 			ViewBag.RootPath = _environment.WebRootPath;
 			Product prod = _context.Products.Single(p => p.Id == id);
-			OrderItemModel oi = new(prod,1);
+			OrderItemModel oi = new(prod,1,prod.AvailableCount??0);
 			return View(oi);
 		}
 
@@ -40,7 +40,7 @@ namespace Eshop.Controllers
 		public IActionResult AddToCartSingle(int id)
 		{
 			Product prod = _context.Products.Single(p => p.Id == id);
-			OrderItemModel oi = new(prod, 1);
+			OrderItemModel oi = new(prod, 1,prod.AvailableCount??0);
 			return AddToCart(oi);
 		}
 
