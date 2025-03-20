@@ -35,6 +35,7 @@
             {
                 <a asp-action="OrderDetail" asp-route-id="@o.Id" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm mb-2">
                     <div>
+                        <span class="badge bg-info p-2 fs-6"> @o.OrderState.StateType</span>
                         <strong>🗓️ @o.OrderDate.ToShortDateString()</strong>
                         <br />
                         <span class="text-muted">Položky: @o.OrderItems.Count</span>

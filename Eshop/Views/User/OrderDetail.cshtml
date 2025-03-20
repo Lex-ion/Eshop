@@ -1,0 +1,54 @@
+﻿@using Eshop.Entities
+@using Eshop.Helpers
+@model List<OrderItemModel>;
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+    decimal totalSum = 0;
+
+    <div class="table-responsive">
+        <table class="table table-hover text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Produkt</th>
+                    <th>Cena za kus</th>
+                    <th>Množství</th>
+                    <th>Celkem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    {
+                        string embed = @IntegrityHelper.GetEmbed("Products", @item.Product.Id)?.Name ?? "unknown";
+                        decimal itemPrice = (item.Product.Price - (item.Product.Discount ?? 0));
+                        decimal itemTotal = itemPrice * item.Count;
+                        totalSum += itemTotal;
+
+                        int maxCount = item.Product.AvailableCount ?? 0;
+
+                        <tr>
+                            <td class="fw-bold d-flex align-items-center">
+                                <img src="~/Imgs//Products/@item.Product.Id/@embed" alt="@item.Product.Name" class="me-2" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;" onerror="this.onerror=null;this.src='/Imgs/System/MissingImg.png';">
+                                @item.Product.Name
+                            </td>
+                            <td>@itemPrice Kč</td>
+                            <td>
+                                
+                                    <input type="number" disabled max="@maxCount" name="count" value="@item.Count" min="1" class="form-control text-center w-50 mx-2" />
+                               
+                            </td>
+                            <td>@itemTotal Kč</td>
+                            
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-end fs-4 fw-bold">Celková suma: @totalSum Kč</div>
+}
