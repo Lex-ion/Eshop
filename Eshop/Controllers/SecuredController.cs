@@ -5,13 +5,9 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Eshop.Controllers
 {
-	public class SecuredController : BaseController
+	public class SecuredController(DatabaseContext context, bool adminOnly) : BaseController(context)
 	{
-		protected bool AdminOnly { get; private set; }
-		public SecuredController(DatabaseContext context, bool adminOnly) : base(context)
-		{
-			AdminOnly = adminOnly;
-		}
+		protected bool AdminOnly { get; private set; } = adminOnly;
 
 		public override void OnActionExecuting(ActionExecutingContext context)
 		{

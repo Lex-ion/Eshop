@@ -55,9 +55,9 @@ namespace Eshop.Entities
 			Discount = null;
 			AvailableCount = null;
 			ManufacturerID = 0;
-			Manufacturer = null!;		
-			ProductCategories = new List<ProductCategory>();
-			ProductReviews = new();
+			Manufacturer = null!;
+			ProductCategories = [];
+			ProductReviews = [];
 		}
 		public override string? ToString()
 		{

@@ -10,7 +10,7 @@ namespace Eshop.Controllers
             if (order is null)
                 return RedirectToAction("Orders");
 
-            UpdateOrderModel model = new UpdateOrderModel(order.Id,order,_context.OrderStates.ToList(),order.OrderStateId);
+            UpdateOrderModel model = new(order.Id,order, [.. _context.OrderStates], order.OrderStateId);
             return View(model);
         }
         [HttpPost]
@@ -29,9 +29,9 @@ namespace Eshop.Controllers
 
 			if (!ModelState.IsValid)
             {
-                model = new UpdateOrderModel(order.Id, order, _context.OrderStates.ToList(), order.OrderStateId);
+                model = new UpdateOrderModel(order.Id, order, [.. _context.OrderStates], order.OrderStateId);
                 return View(model);
-
+                
 			}
 
 

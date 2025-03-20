@@ -19,7 +19,7 @@ namespace Eshop.Controllers
 			Category? p = _context.Categories.Find(id);
 			if (p is null)
 				return RedirectToAction("Categories");
-			CategoryFormModel model = new CategoryFormModel(id, p.Name, p.Description);
+			CategoryFormModel model = new(id, p.Name, p.Description);
 
 			return View(model);
 		}

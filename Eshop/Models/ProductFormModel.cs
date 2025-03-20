@@ -49,7 +49,7 @@ namespace Eshop.Models
 			Discount = null;
 			AvailableCount = null;
 			ManufacturerID = 0;
-			Manufacturers = new List<Manufacturer>();
+			Manufacturers = [];
 		}
 	}
 }

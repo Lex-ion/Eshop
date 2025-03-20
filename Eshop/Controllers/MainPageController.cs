@@ -7,20 +7,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Eshop.Controllers
 {
-	public class MainPageController : BaseController
+	public class MainPageController(DatabaseContext context) : BaseController(context)
 	{
-		public MainPageController(DatabaseContext context) : base(context)
-		{
-		}
-
 		public IActionResult Index(string? SearchString)
 		{
-			List<Product> products = _context.Products.ToList();
+			List<Product> products = [.. _context.Products];
 
 			if(!string.IsNullOrWhiteSpace(SearchString))
-				products = Search(SearchString,_context.Products.ToList());
+				products = Search(SearchString, [.. _context.Products]);
 
-			MainPageModel model = new MainPageModel(products,SearchString);
+			MainPageModel model = new(products, SearchString);
 			
 			return View(model);
 		}
@@ -49,7 +45,7 @@ namespace Eshop.Controllers
 				return prods;
 
 
-			Dictionary<Product, int> searchItems = new Dictionary<Product, int>();
+			Dictionary<Product, int> searchItems = [];
 			string[] searchParams = searchString.ToLower().Split(' ');
 			//StringComparison c = StringComparison.OrdinalIgnoreCase;
 
@@ -58,15 +54,15 @@ namespace Eshop.Controllers
 			{
 				foreach (var item in prods.Where(p => p.Name.ToLower().Contains(param)))
 				{
-					if (searchItems.ContainsKey(item))
-						searchItems[item]++;
+					if (searchItems.TryGetValue(item, out int value))
+						searchItems[item] = ++value;
 					else
 						searchItems[item] = 1;
 				}
 				foreach (var item in prods.Where(p => p.Description?.ToLower().Contains(param)??false))
 				{
-					if (searchItems.ContainsKey(item))
-						searchItems[item]++;
+					if (searchItems.TryGetValue(item, out int value))
+						searchItems[item] = ++value;
 					else
 						searchItems[item] = 1;
 				}
@@ -74,8 +70,8 @@ namespace Eshop.Controllers
 
 				foreach (var item in prods.Where(p => p.Manufacturer.Name.ToLower().Contains(param)))
 				{
-					if (searchItems.ContainsKey(item))
-						searchItems[item]++;
+					if (searchItems.TryGetValue(item, out int value))
+						searchItems[item] = ++value;
 					else
 						searchItems[item] = 1;
 				}
@@ -84,8 +80,8 @@ namespace Eshop.Controllers
 				{
 					foreach (var prodCats in prod.ProductCategories.Where(p => p.Category.Name.ToLower().Contains(param)))
 					{
-						if (searchItems.ContainsKey(prod))
-							searchItems[prod]++;
+						if (searchItems.TryGetValue(prod, out int value))
+							searchItems[prod] = ++value;
 						else
 							searchItems[prod] = 1;
 					}
@@ -94,8 +90,8 @@ namespace Eshop.Controllers
 				{
 					foreach (var prodCats in prod.ProductCategories.Where(p => p.Category.Description?.ToLower().Contains(param) ?? false))
 					{
-						if (searchItems.ContainsKey(prod))
-							searchItems[prod]++;
+						if (searchItems.TryGetValue(prod, out int value))
+							searchItems[prod] = ++value;
 						else
 							searchItems[prod] = 1;
 					}
@@ -111,17 +107,16 @@ namespace Eshop.Controllers
 
 		public IActionResult AdvancedSearch(ProductSearchModel? model)
 		{
-			if(model is null)
-				model = new ProductSearchModel();
+			model ??= new ProductSearchModel();
 
 			var filter = model.Filter;
-			model.Categories=_context.Categories.ToList();
-			model.Manufacturers=_context.Manufacturers.ToList();
+			model.Categories= [.. _context.Categories];
+			model.Manufacturers = [.. _context.Manufacturers];
 			var semiFiltered = _context.Products.ToList()
 				.Where(
 				p =>
-				filter.SelectedManufacturers.Count > 0 ? filter.SelectedManufacturers.Contains(p.ManufacturerID) : true &&
-				filter.SelectedCategories.Count > 0 ? filter.SelectedCategories.All(c => p.ProductCategories.Select(pc => pc.CategoryId).Contains(c)):true
+				filter.SelectedManufacturers.Count > 0 ? filter.SelectedManufacturers.Contains(p.ManufacturerID) : false ||
+				filter.SelectedCategories.Count <= 0 || filter.SelectedCategories.All(c => p.ProductCategories.Select(pc => pc.CategoryId).Contains(c))
 				).
 				ToList();
 			model.Products= Search(filter.SearchQuery, semiFiltered);
@@ -131,10 +126,10 @@ namespace Eshop.Controllers
 				case SortByPrice.None:
 					break;
 				case SortByPrice.Ascending:
-					model.Products = model.Products.OrderBy(p => p.Price - (p.Discount ?? 0)).ToList();
+					model.Products = [.. model.Products.OrderBy(p => p.Price - (p.Discount ?? 0))];
 					break;
 				case SortByPrice.Descending:
-					model.Products = model.Products.OrderByDescending(p => p.Price - (p.Discount ?? 0)).ToList();
+					model.Products = [.. model.Products.OrderByDescending(p => p.Price - (p.Discount ?? 0))];
 					break;
 				default:
 					break;

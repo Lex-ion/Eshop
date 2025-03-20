@@ -5,12 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Eshop.Controllers
 {
-	public partial class AdminController : SecuredController
+	public partial class AdminController(DatabaseContext context) : SecuredController(context,true)
 	{
-		public AdminController(DatabaseContext context) : base(context,true)
-		{
-		}
-
 		public IActionResult Index()
 		{
 			return RedirectToAction("Products");

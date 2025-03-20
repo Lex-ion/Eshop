@@ -29,7 +29,7 @@ namespace Eshop.Entities
 			Id = 0;
 			Name = string.Empty;
 			Description =null;
-			Products = new List<Product>();
+			Products = [];
 		}
 		public override string? ToString()
 		{

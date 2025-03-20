@@ -5,12 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Eshop.Controllers
 {
-	public class UserController : SecuredController
+	public class UserController(DatabaseContext context) : SecuredController(context, false)
 	{
-		public UserController(DatabaseContext context) : base(context,false)
-		{
-		}
-
 		public IActionResult Index()
 		{
 			var ui = UserInfoExtractorHelper.GetUserInfo(_context, HttpContext); ;

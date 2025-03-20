@@ -13,7 +13,7 @@ namespace Eshop.Models
         {
 			OrderID = 0;
             Order = null!;
-			OrderStates = new List<OrderState>();
+			OrderStates = [];
 			OrderStateId = 0;
 		}
 

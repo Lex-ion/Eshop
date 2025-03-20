@@ -11,8 +11,10 @@ namespace Eshop.Controllers
 		[Route("Admin/AddProduct")]
 		public IActionResult AddProduct()
 		{
-			ProductFormModel model = new();
-			model.Manufacturers = _context.Manufacturers.ToList();
+			ProductFormModel model = new()
+			{
+				Manufacturers = [.. _context.Manufacturers]
+			};
 			return View(model);
 		}
 		[HttpPost]
@@ -21,7 +23,7 @@ namespace Eshop.Controllers
 		public IActionResult AddProduct(ProductFormModel model)
 		{
 
-			model.Manufacturers = _context.Manufacturers.ToList();
+			model.Manufacturers = [.. _context.Manufacturers];
 			ModelState.MarkFieldValid("Manufacturers");
 			
 			if(!ModelState.IsValid||model.ManufacturerID <=0)
@@ -50,7 +52,7 @@ namespace Eshop.Controllers
 			if (p is null)
 				return RedirectToAction("Products");
 
-			ProductFormModel model = new ProductFormModel(id,p.Name,p.Description,p.Price,p.Discount,p.AvailableCount,p.Manufacturer.Id,_context.Manufacturers.ToList());
+			ProductFormModel model = new(id,p.Name,p.Description,p.Price,p.Discount,p.AvailableCount,p.Manufacturer.Id, [.. _context.Manufacturers]);
 			
 			return View(model);
 		}
@@ -60,7 +62,7 @@ namespace Eshop.Controllers
 		[Route("Admin/EditProduct/{id}")]
 		public IActionResult EditProduct(ProductFormModel model)
 		{
-			model.Manufacturers = _context.Manufacturers.ToList();
+			model.Manufacturers = [.. _context.Manufacturers];
 			ModelState.MarkFieldValid("Manufacturers");
 
 			if (!ModelState.IsValid || model.ManufacturerID <= 0)

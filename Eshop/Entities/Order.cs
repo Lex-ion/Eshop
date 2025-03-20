@@ -91,7 +91,7 @@ namespace Eshop.Entities
 			DeliveryDate = null;
 			OrderStateId = 0;
 			OrderState = null! ;
-			OrderItems = new();
+			OrderItems = [];
 			DeliveryMethod = null!;
 			PaymentMethod = null!;
 		}

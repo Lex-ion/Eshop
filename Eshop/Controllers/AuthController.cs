@@ -6,14 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Eshop.Controllers
 {
-	public class AuthController : Controller
+	public class AuthController(DatabaseContext context) : Controller
 	{
-		DatabaseContext _context;
-
-		public AuthController(DatabaseContext context)
-		{
-			_context = context;
-		}
+		private readonly DatabaseContext _context = context;
 
 		public IActionResult Login()
 		{
@@ -52,7 +47,7 @@ namespace Eshop.Controllers
 				return View(model);
 			}
 			string pswd = SHA256Helper.HashPassword(model.Password);
-			Account account = new Account(0, 2, null!, model.Name, model.Lastname, model.Adress, model.Email, pswd, DateTime.Now, DateTime.Now, null!);
+			Account account = new(0, 2, null!, model.Name, model.Lastname, model.Adress, model.Email, pswd, DateTime.Now, DateTime.Now, null!);
 			_context.Accounts.Add(account);
 			_context.SaveChanges();
 			var acc = _context.Accounts.Single(a=>a.Mail == account.Mail);

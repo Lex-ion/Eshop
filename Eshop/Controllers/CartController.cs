@@ -7,14 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Eshop.Controllers
 {
-	public class CartController : BaseController
+	public class CartController(DatabaseContext context) : BaseController(context)
 
 
 	{
-		public CartController(DatabaseContext context) : base(context)
-		{
-		}
-
 		public IActionResult Index()
 		{
 			var cart = CartHelper.GetCart(HttpContext, _context);
@@ -84,17 +80,19 @@ namespace Eshop.Controllers
 			}
 
 			UserInfo userInfo = UserInfoExtractorHelper.GetUserInfo(_context, HttpContext);
-            
-			Order order = new();
-			order.OrderStateId = 1;
-			order.Adress = model.Adress;
-			order.PaymentMethodId = model.PaymentType;
-			order.DeliveryMethodId = model.DeliveryType;
-			order.IsDelivered = false;
-			order.Lastname = model.Lastname;
-			order.Mail = model.Mail;
-			order.Name = model.Name;
-			order.OrderDate = DateTime.Now;
+
+			Order order = new()
+			{
+				OrderStateId = 1,
+				Adress = model.Adress,
+				PaymentMethodId = model.PaymentType,
+				DeliveryMethodId = model.DeliveryType,
+				IsDelivered = false,
+				Lastname = model.Lastname,
+				Mail = model.Mail,
+				Name = model.Name,
+				OrderDate = DateTime.Now
+			};
 
 
 			if (userInfo.IsAuthenticated)

@@ -7,14 +7,9 @@ using Eshop.Helpers;
 
 namespace Eshop.Controllers
 {
-	public class ProductController : BaseController
+	public class ProductController(DatabaseContext context, IWebHostEnvironment environment) : BaseController(context)
 	{
-		IWebHostEnvironment _environment;
-
-		public ProductController(DatabaseContext context, IWebHostEnvironment environment) : base(context)
-		{
-			_environment = environment;
-		}
+		private readonly IWebHostEnvironment _environment = environment;
 
 		public IActionResult ProductDetail(int id)
 		{
@@ -35,7 +30,7 @@ namespace Eshop.Controllers
 			CartHelper.AddToCart(HttpContext, model);
 
 			int id = model.ProductId;
-			return RedirectToAction("ProductDetail", new { id = id }); //💀
+			return RedirectToAction("ProductDetail", new { id }); //💀
 		}
 		public IActionResult AddToCartSingle(int id)
 		{
@@ -52,8 +47,10 @@ namespace Eshop.Controllers
 			ViewBag.RootPath = _environment.WebRootPath;
 			Product prod = _context.Products.Single(p => p.Id == id);
 			ViewBag.Product = prod;
-			ReviewModel model = new();
-			model.ProductId = id;
+			ReviewModel model = new()
+			{
+				ProductId = id
+			};
 			return View(model);
 		}
 		[HttpPost]

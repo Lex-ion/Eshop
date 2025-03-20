@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# CA1862: Použijte metodu přetížení „StringComparison“ k porovnání řetězců bez rozlišování velkých a malých písmen
+dotnet_diagnostic.CA1862.severity = none
+
+# IDE0055: Opravit formátování
+dotnet_diagnostic.IDE0055.severity = none

@@ -15,7 +15,7 @@ namespace Eshop.Models
 
 		public MainPageModel()
 		{
-			Products = new List<Product>();
+			Products = [];
 			SearchString = "";
 		}
 	}

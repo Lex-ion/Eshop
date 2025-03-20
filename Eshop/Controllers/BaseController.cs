@@ -6,14 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Eshop.Controllers
 {
-	public class BaseController : Controller
+	public class BaseController(DatabaseContext context) : Controller
 	{
-		protected DatabaseContext _context;
-
-		public BaseController(DatabaseContext context)
-		{
-			_context = context;
-		}
+		protected DatabaseContext _context = context;
 
 		public override void OnActionExecuting(ActionExecutingContext context)
 		{
