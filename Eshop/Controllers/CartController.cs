@@ -2,6 +2,7 @@
 using Eshop.Entities;
 using Eshop.Helpers;
 using Eshop.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Eshop.Controllers
@@ -24,6 +25,10 @@ namespace Eshop.Controllers
 		public IActionResult UpdateQuantity(int productId, int count)
 		{
 			var prod = _context.Products.Find(productId);
+
+			if (prod is null)
+				return RedirectToAction("Index");
+
 			if (prod.AvailableCount < 1)
 			{
 				CartHelper.RemoveFromCart(HttpContext, productId);
@@ -51,6 +56,9 @@ namespace Eshop.Controllers
 			if(userInfo.IsAuthenticated )
 			{
 				var user = _context.Accounts.Find(userInfo.Id);
+
+				if (user is null)
+					return new StatusCodeResult(500);
 
 				model.Adress = user.Adress;
 				model.Name = user.Name;

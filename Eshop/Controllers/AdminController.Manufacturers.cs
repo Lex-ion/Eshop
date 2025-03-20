@@ -18,7 +18,9 @@ namespace Eshop.Controllers
 		[Route("Admin/EditManufacturer/{id}")]
 		public IActionResult EditManufacturer(int id)
 		{
-			Manufacturer m = _context.Manufacturers.Find(id);
+			Manufacturer? m = _context.Manufacturers.Find(id);
+			if (m is null)
+				return RedirectToAction("Manufacturers");
 			ManufacturerModelForm model = new(id, m.Name, m.Description);
 
 			return View(model);
@@ -92,7 +94,9 @@ namespace Eshop.Controllers
 		[Route("Admin/DeleteManufacturer/{id}")]
 		public IActionResult Deletemanufacturer(int id)
 		{
-			Manufacturer m = _context.Manufacturers.Find(id);
+			Manufacturer? m = _context.Manufacturers.Find(id);
+			if (m is null)
+				return RedirectToAction("Manufacturers");
 
 			_context.Manufacturers.Remove(m);
 			_context.SaveChanges();

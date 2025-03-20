@@ -26,6 +26,9 @@ namespace Eshop.Controllers
 			var ui = UserInfoExtractorHelper.GetUserInfo(_context, HttpContext);
 			var order = _context.Orders.Find(id);
 
+			if (order is null)
+				return RedirectToAction("Index");
+
 			if (order.AccountId != ui.Id)
 				return RedirectToAction("Index");
 

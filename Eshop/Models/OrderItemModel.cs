@@ -24,6 +24,7 @@ namespace Eshop.Models
 
 		public OrderItemModel()
 		{
+			Product = null!;
 		}
 	}
 }

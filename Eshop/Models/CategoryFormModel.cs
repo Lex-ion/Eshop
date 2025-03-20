@@ -6,6 +6,8 @@ namespace Eshop.Models
 	{
 		public CategoryFormModel()
 		{
+			Name = "";
+			Description = "";
 		}
 
 		public int Id { get; set; }

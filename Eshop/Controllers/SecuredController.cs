@@ -1,5 +1,6 @@
 ﻿using Eshop.Database;
 using Eshop.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Eshop.Controllers
@@ -24,7 +25,7 @@ namespace Eshop.Controllers
 
 			if(AdminOnly&&ui.Role!=1) 
 				{
-					context.Result = BadRequest();
+					context.Result = new StatusCodeResult(403);
 					return;
 				}
 

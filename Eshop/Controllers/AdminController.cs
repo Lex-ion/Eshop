@@ -14,9 +14,6 @@ namespace Eshop.Controllers
 		public IActionResult Index()
 		{
 			return RedirectToAction("Products");
-			var aliases = AliasHelper.GetMethodAliases<AdminController>();
-
-			return View(aliases);
 		}
 
 

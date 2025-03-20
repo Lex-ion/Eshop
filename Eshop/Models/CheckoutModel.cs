@@ -6,6 +6,11 @@ namespace Eshop.Models
 	{
 		public CheckoutModel()
 		{
+			Name = string.Empty;
+			Lastname = string.Empty;
+			Adress = string.Empty;
+			Mail = string.Empty;
+
 		}
 		[MaxLength(50)]
 		public string Name { get; set; }

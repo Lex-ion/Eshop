@@ -4,6 +4,8 @@
 	{
 		public LoginModel()
 		{
+			Mail = "";
+			Password = "";
 		}
 
 		public string Mail { get; set; }

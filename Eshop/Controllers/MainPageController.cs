@@ -43,7 +43,7 @@ namespace Eshop.Controllers
 			return RedirectToAction("Index");
 		}
 
-		public List<Product> Search(string searchString,List<Product> prods)
+		public List<Product> Search(string? searchString,List<Product> prods)
 		{
 			if (string.IsNullOrWhiteSpace(searchString))
 				return prods;

@@ -16,7 +16,9 @@ namespace Eshop.Controllers
 		[Route("Admin/EditCategory/{id}")]
 		public IActionResult EditCategory(int id)
 		{
-			Category p = _context.Categories.Find(id);
+			Category? p = _context.Categories.Find(id);
+			if (p is null)
+				return RedirectToAction("Categories");
 			CategoryFormModel model = new CategoryFormModel(id, p.Name, p.Description);
 
 			return View(model);
@@ -86,6 +88,8 @@ namespace Eshop.Controllers
 		{
 
 			var c = _context.Categories.Find(id);
+			if (c is null)
+				return RedirectToAction("Categories");
 
 
 			_context.Categories.Remove(c);

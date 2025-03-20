@@ -20,6 +20,8 @@ namespace Eshop.Models
 
 		public ManufacturerModelForm()
 		{
+			Description = "";
+			Name = "";
 		}
 	}
 }

@@ -31,6 +31,12 @@ namespace Eshop.Models
 
 		public RegistrationModel()
 		{
+			Name = "";
+			Lastname = "";
+			Email = "";
+			Adress = "";
+			Password = "";
+			PasswordRepeat = "";
 		}
 	}
 }

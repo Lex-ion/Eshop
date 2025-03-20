@@ -31,7 +31,7 @@ namespace Eshop.Controllers
 				return View(model);
 			}
 
-			Product p = new(0, model.Name, model.Description, model.Price, model.Discount, model.AvailableCount, model.ManufacturerID, null, null, null);
+			Product p = new(0, model.Name, model.Description, model.Price, model.Discount, model.AvailableCount, model.ManufacturerID, null!, null!, null!);
 			_context.Products.Add(p);
 			_context.SaveChanges();
 
@@ -46,7 +46,10 @@ namespace Eshop.Controllers
 		[Route("Admin/EditProduct/{id}")]
 		public IActionResult EditProduct(int id) 
 		{
-			Product p = _context.Products.Find(id);
+			Product? p = _context.Products.Find(id);
+			if (p is null)
+				return RedirectToAction("Products");
+
 			ProductFormModel model = new ProductFormModel(id,p.Name,p.Description,p.Price,p.Discount,p.AvailableCount,p.Manufacturer.Id,_context.Manufacturers.ToList());
 			
 			return View(model);
@@ -67,7 +70,7 @@ namespace Eshop.Controllers
 				return View(model);
 			}
 
-			Product p = new(model.Id, model.Name, model.Description, model.Price, model.Discount, model.AvailableCount, model.ManufacturerID, null, null, null);
+			Product p = new(model.Id, model.Name, model.Description, model.Price, model.Discount, model.AvailableCount, model.ManufacturerID, null!, null!, null!);
 			_context.Products.Update(p);
 			_context.SaveChanges();
 
@@ -80,6 +83,8 @@ namespace Eshop.Controllers
 		public IActionResult DeleteProduct(int id) {
 
 			var p = _context.Products.Find(id);
+			if (p is null)
+				return RedirectToAction("Products");
 			_context.Products.Remove(p);
 			_context.SaveChanges();
 			return RedirectToAction("Products"); 

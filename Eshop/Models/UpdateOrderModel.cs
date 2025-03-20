@@ -11,7 +11,11 @@ namespace Eshop.Models
 
         public UpdateOrderModel()
         {
-        }
+			OrderID = 0;
+            Order = null!;
+			OrderStates = new List<OrderState>();
+			OrderStateId = 0;
+		}
 
         public UpdateOrderModel(int orderID, Order order, List<OrderState> orderStates, int orderStateId)
         {

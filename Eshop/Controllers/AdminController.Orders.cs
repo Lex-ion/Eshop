@@ -7,6 +7,9 @@ namespace Eshop.Controllers
         public IActionResult EditOrders(int id)
         {
             var order = _context.Orders.Find(id);
+            if (order is null)
+                return RedirectToAction("Orders");
+
             UpdateOrderModel model = new UpdateOrderModel(order.Id,order,_context.OrderStates.ToList(),order.OrderStateId);
             return View(model);
         }
@@ -14,6 +17,9 @@ namespace Eshop.Controllers
         public IActionResult EditOrders(UpdateOrderModel model)
         {
                var order = _context.Orders.Find(model.OrderID);
+
+			if (order is null)
+				return RedirectToAction("Orders");
 
 			ModelState.ClearValidationState("OrderStates");
 			ModelState.ClearValidationState("Order");
@@ -40,8 +46,8 @@ namespace Eshop.Controllers
         }
 
         public IActionResult DeleteOrders(int id)
-        {
-            return new BadRequestResult();//ne nebude se mazat
+		{
+			return new StatusCodeResult(403); //ne nebude se mazat
         }
     }
 }

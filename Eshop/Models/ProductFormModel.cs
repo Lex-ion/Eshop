@@ -42,6 +42,14 @@ namespace Eshop.Models
 
 		public ProductFormModel()
 		{
+			Id = 0;
+			Name = string.Empty;
+			Description = null;
+			Price = 0;
+			Discount = null;
+			AvailableCount = null;
+			ManufacturerID = 0;
+			Manufacturers = new List<Manufacturer>();
 		}
 	}
 }

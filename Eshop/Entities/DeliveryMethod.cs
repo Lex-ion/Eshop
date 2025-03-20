@@ -13,6 +13,7 @@ namespace Eshop.Entities
 
 		public DeliveryMethod()
 		{
+			Name = "";
 		}
 	}
 }
