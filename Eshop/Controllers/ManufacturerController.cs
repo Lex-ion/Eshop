@@ -7,7 +7,7 @@ namespace Eshop.Controllers
 	{
 		public IActionResult Index(int id)
         {
-            return View(_context.Manufacturers.Single(m=>m.Id==id));
+            return View(_context.Manufacturers.Find(id));
         }
     }
 }

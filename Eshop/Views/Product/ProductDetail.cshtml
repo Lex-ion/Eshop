@@ -103,7 +103,7 @@
     <div class="d-flex flex-wrap gap-3">
         @foreach (var cat in Model.Product.ProductCategories)
         {
-            <a href="#" class="badge bg-secondary p-2 fs-5 text-decoration-none">@cat.Category.Name</a>
+            <a asp-controller="Category" asp-action="Index" asp-route-id="@cat.CategoryId" class="badge bg-secondary p-2 fs-5 text-decoration-none">@cat.Category.Name</a>
         }
     </div>
 </div>

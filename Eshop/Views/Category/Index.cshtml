@@ -1,6 +1,6 @@
 ﻿@using Eshop.Entities;
 @using Eshop.Helpers
-@model Manufacturer;
+@model Category;
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -8,38 +8,30 @@
 }
 
 @if(Model is null){
-<h1>Výrobce nenalezen</h1>
-    <p>Bohužel, výrobce nebyl nalezen.</p>
+<h1>Kategorie nenalezena</h1>
+    <p>Bohužel, kategorie nebyla nalezena.</p>
 }
 else{
 
 <div class="d-flex align-items-center">
-    <!-- Logo výrobce -->
-
-    @{
-        FileInfo? embed = IntegrityHelper.GetEmbed("Manufacturers", Model.Id);
-        string path = embed is null?"":embed.Name;
-                   
-        }
-
-    <img src="/Imgs/Manufacturers/@Model.Id/@path" alt="@Model.Name logo" class="mr-3" style="width: auto; height: 75px; object-fit: contain;" onerror="this.onerror=null;this.src='/Imgs/System/MissingImg.png';">
-
+   
     <h1>@Model.Name</h1>
 </div>
 <p>@Model.Description</p>
 <div class="opacity-25 bg-opacity-25 bg-black">
     <hr />
 </div>
-<h1>Produkty od výrobce:</h1>
+<h1>Produkty z kategorie:</h1>
 <br />
 <div class="container">
 
     <div class="row">
 
-        @foreach (var p in Model.Products)
+        @foreach (var cat in Model.ProductCategories)
         {
+				var p = cat.Product;
 
-                string itemEmbed = @IntegrityHelper.GetEmbed("Products", @p.Id)?.Name ?? "unknown";
+				string itemEmbed = @IntegrityHelper.GetEmbed("Products", @p.Id)?.Name ?? "unknown";
            
             <div class="col-md-3 mb-4 d-flex">
                 <div class="card flex-fill d-flex flex-column">
