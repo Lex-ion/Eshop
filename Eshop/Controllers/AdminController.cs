@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Eshop.Controllers
 {
-	public partial class AdminController : BaseController
+	public partial class AdminController : SecuredController
 	{
-		public AdminController(DatabaseContext context) : base(context)
+		public AdminController(DatabaseContext context) : base(context,true)
 		{
 		}
 
