@@ -88,11 +88,13 @@ namespace Eshop.Controllers
 			order.Name = model.Name;
 			order.OrderDate = DateTime.Now;
 
+
 			if (userInfo.IsAuthenticated)
 				order.AccountId = userInfo.Id;
 
-			var cartItems = CartHelper.GetCart(HttpContext, _context).Select(i => new OrderItem(0, order, i.ProductId, null!, i.Count)).ToList() ;
+			var cartItems = CartHelper.GetCart(HttpContext, _context).Select(i => new OrderItem(0, order, i.ProductId, i.Product, i.Count)).ToList() ;
 
+			order.TotalPrice = cartItems.Sum(i=>(i.Product.Price-(i.Product?.Discount??0))*i.ProductCount);
 			order.OrderItems = cartItems;
 
 			_context.Orders.Add(order);
