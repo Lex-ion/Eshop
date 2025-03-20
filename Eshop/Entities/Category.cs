@@ -31,5 +31,10 @@ namespace Eshop.Entities
 			Description = null;
 			ProductCategories = new List<ProductCategory>();
 		}
+
+		public override string? ToString()
+		{
+			return Name;
+		}
 	}
 }

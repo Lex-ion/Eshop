@@ -95,5 +95,10 @@ namespace Eshop.Entities
 			DeliveryMethod = null!;
 			PaymentMethod = null!;
 		}
+
+		public override string? ToString()
+		{
+			return $"[{OrderState.StateType}] {OrderDate.ToShortDateString()}: {Mail}";
+		}
 	}
 }

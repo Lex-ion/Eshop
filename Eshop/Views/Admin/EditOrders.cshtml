@@ -1,16 +1,57 @@
-﻿@model UpdateOrderModel;
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-<form action="/" method="post">
-        <input type="number" disabled asp-for="OrderID" />
-        <select asp-for="OrderStateId">
-            @foreach (var item in Model.OrderStates)
-        {
-             <option value="@item.Id">@item.StateType</option>
-        }
-        </select>
-        <button type="submit">Uložit</button>
-</form>
+﻿@using Eshop.Helpers
+@model UpdateOrderModel;
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+<div class="container py-4">
+    <div class="card shadow-sm p-4">
+        <h3 class="mb-3">Detail objednávky</h3>
+        <div class="border-bottom pb-2 mb-3">
+            <h5 class="fw-bold"> @Model.Order.Name @Model.Order.Lastname</h5>
+            <p class="mb-1"><i class="bi bi-envelope"></i> @Model.Order.Mail</p>
+            <p><i class="bi bi-geo-alt"></i>@Model.Order.Adress</p>
+        </div>
+
+        <form asp-action="EditOrders" method="post" class="mb-4">
+            <input type="hidden" asp-for="OrderID" />
+            <div class="mb-3">
+                <label for="OrderStateId" class="form-label fw-bold">Stav objednávky</label>
+                <select asp-for="OrderStateId" class="form-select">
+                    @foreach (var item in Model.OrderStates)
+                    {
+                        <option value="@item.Id">@item.StateType</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Uložit</button>
+        </form>
+
+        <h4 class="mb-3">Položky objednávky</h4>
+        <div class="table-responsive">
+            <table class="table table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Produkt</th>
+                        <th>Množství</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Order.OrderItems)
+                    {
+                        string embed = IntegrityHelper.GetEmbed("Products", item.Product.Id)?.Name ?? "unknown";
+                        int maxCount = item.Product.AvailableCount ?? 0;
+
+                        <tr>
+                            <td class="fw-bold d-flex align-items-center">
+                                <img src="~/Imgs/Products/@item.Product.Id/@embed" alt="@item.Product.Name" class="me-2 rounded" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;" onerror="this.onerror=null;this.src='/Imgs/System/MissingImg.png';">
+                                <span>@item.Product.Name</span>
+                            </td>
+                            <td>
+                                <input type="number" disabled max="@maxCount" name="count" value="@item.ProductCount" min="1" class="form-control text-center w-50 mx-auto" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

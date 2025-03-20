@@ -33,7 +33,7 @@
         @foreach (var item in ViewBag.Entities)
         {
             <tr>
-                <td>@item.Name</td>
+                <td>@item.ToString()</td>
                 <td class="text-end">
                     <a asp-action="@edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Upravit</a>
                     <a asp-route-id="@item.Id" asp-action="@delete" class="btn btn-danger btn-sm" onclick="return confirm('Opravdu chcete smazat tento záznam?');">Smazat</a>

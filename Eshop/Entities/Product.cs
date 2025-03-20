@@ -59,5 +59,9 @@ namespace Eshop.Entities
 			ProductCategories = new List<ProductCategory>();
 			ProductReviews = new();
 		}
+		public override string? ToString()
+		{
+			return Name;
+		}
 	}
 }
