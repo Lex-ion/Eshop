@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Eshop.Entities
 {
-	[Table("tbOrderItems")]
+	[Table("tbOrderItem")]
 	[PrimaryKey("OrderId", ["ProductId"])]
 	public class OrderItem
 	{

@@ -22,12 +22,12 @@ namespace Eshop.Models
 		[MaxLength(100)]
 		public string Mail { get; set; }
 
-		public int DeliveryType;
-		public int PaymentType;
+		public int DeliveryType { get; set; }
+        public int PaymentType { get; set; }
 
 
 
-		public CheckoutModel(string name, string lastname, string adress, string mail, int deliveryType, int paymentType)
+        public CheckoutModel(string name, string lastname, string adress, string mail, int deliveryType, int paymentType)
 		{
 			Name = name;
 			Lastname = lastname;

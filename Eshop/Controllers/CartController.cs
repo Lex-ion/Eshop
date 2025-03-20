@@ -76,7 +76,7 @@ namespace Eshop.Controllers
 			}
 
 			UserInfo userInfo = UserInfoExtractorHelper.GetUserInfo(_context, HttpContext);
-
+            
 			Order order = new();
 			order.OrderStateId = 1;
 			order.Adress = model.Adress;
